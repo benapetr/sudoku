@@ -47,10 +47,11 @@ class MainWindow : public QMainWindow
         void on_actionNew_triggered();
         void on_actionLoad_triggered();
         void on_actionSave_triggered();
-
         void on_actionRemove_hints_for_same_number_as_entered_triggered();
-
         void on_actionAutoload_last_file_triggered();
+        void on_actionFlag_invalid_hints_triggered();
+        void on_actionFind_all_hints_triggered();
+        void on_actionFind_hints_triggered();
 
     private:
         void closeEvent(QCloseEvent *event);

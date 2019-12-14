@@ -41,6 +41,8 @@ class SudokuItemWidget : public QFrame
         void Reset();
         void SwitchView(SudokuItemWidget_ViewMode mode);
         SudokuItemWidget_ViewMode GetCurrentViewMode();
+        void FlagInvalidHint(unsigned int value);
+        void FlagValidHint(unsigned int value);
         void UpdateColors();
         int HintBoxPosRow;
         int HintBoxPosCol;

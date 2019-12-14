@@ -309,3 +309,20 @@ void MainWindow::on_actionAutoload_last_file_triggered()
 {
     Options::SetAutoload(this->ui->actionAutoload_last_file->isChecked());
 }
+
+void MainWindow::on_actionFlag_invalid_hints_triggered()
+{
+    this->board->FlagInvalidHints();
+}
+
+void MainWindow::on_actionFind_all_hints_triggered()
+{
+    if (!this->board->FindAllHints())
+        this->UpdateStatus("No hints found");
+}
+
+void MainWindow::on_actionFind_hints_triggered()
+{
+    if (!this->board->FindHint())
+        this->UpdateStatus("No hints found");
+}

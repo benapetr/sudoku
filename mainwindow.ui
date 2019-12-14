@@ -455,7 +455,16 @@
     <addaction name="separator"/>
     <addaction name="actionRemove_hints_for_same_number_as_entered"/>
    </widget>
+   <widget class="QMenu" name="menuSudoku">
+    <property name="title">
+     <string>Sudoku</string>
+    </property>
+    <addaction name="actionFlag_invalid_hints"/>
+    <addaction name="actionFind_hints"/>
+    <addaction name="actionFind_all_hints"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuSudoku"/>
    <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -507,6 +516,21 @@
    </property>
    <property name="text">
     <string>Remove hints for same number as entered</string>
+   </property>
+  </action>
+  <action name="actionFlag_invalid_hints">
+   <property name="text">
+    <string>Flag invalid hints</string>
+   </property>
+  </action>
+  <action name="actionFind_hints">
+   <property name="text">
+    <string>Find 1 hint</string>
+   </property>
+  </action>
+  <action name="actionFind_all_hints">
+   <property name="text">
+    <string>Find all hints</string>
    </property>
   </action>
  </widget>

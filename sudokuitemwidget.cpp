@@ -39,6 +39,7 @@ int SudokuItemWidget::SetValueHint(unsigned int hint_value)
     if (ptr == nullptr)
         return E_INVALID_VALUE;
     ptr->setText(QString::number(hint_value));
+    ptr->setStyleSheet("color: rgb(0, 0, 0)");
     this->valueHint[hint_value] = true;
     return SUCCESS;
 }
@@ -131,6 +132,25 @@ void SudokuItemWidget::SwitchView(SudokuItemWidget_ViewMode mode)
 SudokuItemWidget_ViewMode SudokuItemWidget::GetCurrentViewMode()
 {
     return this->viewMode;
+}
+
+void SudokuItemWidget::FlagInvalidHint(unsigned int value)
+{
+    QPushButton *ptr = this->bFVH(value);
+    if (ptr == nullptr)
+        return;
+    ptr->setText(QString::number(value));
+    ptr->setStyleSheet("color: rgb(255, 20, 0)");
+}
+
+void SudokuItemWidget::FlagValidHint(unsigned int value)
+{
+    QPushButton *ptr = this->bFVH(value);
+    if (ptr == nullptr)
+        return;
+    ptr->setText(QString::number(value));
+    this->valueHint[value] = true;
+    ptr->setStyleSheet("color: rgb(0, 255, 0)");
 }
 
 void SudokuItemWidget::UpdateColors()

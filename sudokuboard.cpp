@@ -45,29 +45,9 @@ int GetBoxID(int p)
 
 int SudokuBoard::SetValue(int row, int col, unsigned int value, bool read_only)
 {
-    if (row < 0 || row > 8)
-        return E_INVALID_ROW;
-    if (col < 0 || col > 8)
-        return E_INVALID_COL;
-
-    if (value > 0)
-    {
-        // Check hints to detect if this value is already in some row or column, if yes, we might want to find where
-        // this is much faster than traversing the actual box structure
-        int c = 0;
-        while (c < 9)
-        {
-            if (this->valueHint[row][c++] == value)
-                return E_ALREADY_USED;
-        }
-        // Same with whole column
-        int r = 0;
-        while (r < 9)
-        {
-            if (this->valueHint[r++][col] == value)
-                return E_ALREADY_USED;
-        }
-    }
+    int check = this->CheckIfValueCanBePlaced(row, col, value);
+    if (check != SUCCESS)
+        return check;
 
     int boxr = GetBoxID(row);
     int boxc = GetBoxID(col);
@@ -133,6 +113,138 @@ int SudokuBoard::SetValueHint(int row, int col, unsigned int value)
 int SudokuBoard::SetValueHint(unsigned int value)
 {
     return this->SetValueHint(this->SelectedRow-1, this->SelectedCol-1, value);
+}
+
+int SudokuBoard::CheckIfValueCanBePlaced(int row, int col, unsigned int value)
+{
+    if (row < 0 || row > 8)
+        return E_INVALID_ROW;
+    if (col < 0 || col > 8)
+        return E_INVALID_COL;
+
+    if (value > 0)
+    {
+        // Check hints to detect if this value is already in some row or column, if yes, we might want to find where
+        // this is much faster than traversing the actual box structure
+        int c = 0;
+        while (c < 9)
+        {
+            if (this->valueHint[row][c++] == value)
+                return E_ALREADY_USED;
+        }
+        // Same with whole column
+        int r = 0;
+        while (r < 9)
+        {
+            if (this->valueHint[r++][col] == value)
+                return E_ALREADY_USED;
+        }
+    }
+    return SUCCESS;
+}
+
+void SudokuBoard::FlagInvalidHints()
+{
+    int row, col;
+    row = 0;
+    while (row < 9)
+    {
+        col = 0;
+        while (col < 9)
+        {
+            this->FlagInvalidHints(row, col);
+            col++;
+        }
+        row++;
+    }
+}
+
+void SudokuBoard::FlagInvalidHints(int row, int col)
+{
+    unsigned int n = 0;
+    SudokuItemWidget *item = this->GetItem(row, col);
+    if (item->GetCurrentViewMode() == SudokuItemWidget_ViewMode_Hint)
+    {
+        while (++n < 10)
+        {
+            if (item->GetValueHint(n) && this->CheckIfValueCanBePlaced(row, col, n) != 0)
+                item->FlagInvalidHint(n);
+        }
+    }
+}
+
+bool SudokuBoard::FindAllHints()
+{
+    int row, col;
+    bool found = false;
+    row = 0;
+    while (row < 9)
+    {
+        col = 0;
+        while (col < 9)
+        {
+            if (this->FindAllHints(row, col))
+                found = true;
+            col++;
+        }
+        row++;
+    }
+    return found;
+}
+
+bool SudokuBoard::FindAllHints(int row, int col)
+{
+    unsigned int n = 0;
+    SudokuItemWidget *item = this->GetItem(row, col);
+    if (!item->IsEmpty())
+        return false;
+    bool found = false;
+    while (++n < 10)
+    {
+        if (!item->GetValueHint(n) && this->CheckIfValueCanBePlaced(row, col, n) == 0)
+        {
+            item->FlagValidHint(n);
+            item->SwitchView(SudokuItemWidget_ViewMode_Hint);
+            found = true;
+        }
+    }
+    return found;
+}
+
+bool SudokuBoard::FindHint()
+{
+    int row, col;
+    row = 0;
+    while (row < 9)
+    {
+        col = 0;
+        while (col < 9)
+        {
+            if (this->FindHint(row, col))
+                return true;
+            col++;
+        }
+        row++;
+    }
+    return false;
+}
+
+bool SudokuBoard::FindHint(int row, int col)
+{
+    unsigned int n = 0;
+    SudokuItemWidget *item = this->GetItem(row, col);
+    if (!item->IsEmpty())
+        return false;
+    while (++n < 10)
+    {
+        if (!item->GetValueHint(n) && this->CheckIfValueCanBePlaced(row, col, n) == 0)
+        {
+            item->FlagValidHint(n);
+            item->SwitchView(SudokuItemWidget_ViewMode_Hint);
+            return true;
+        }
+    }
+    return false;
 }
 
 QString SudokuBoard::ExportToCommandList()

@@ -37,6 +37,13 @@ class SudokuBoard : public QFrame
         int ClearValue(bool read_only = false);
         int SetValueHint(int row, int col, unsigned int value);
         int SetValueHint(unsigned int value);
+        int CheckIfValueCanBePlaced(int row, int col, unsigned int value);
+        void FlagInvalidHints();
+        void FlagInvalidHints(int row, int col);
+        bool FindAllHints();
+        bool FindAllHints(int row, int col);
+        bool FindHint();
+        bool FindHint(int row, int col);
         QString ExportToCommandList();
         SudokuItemWidget *GetItem(int row, int col);
         void ResetChange();
