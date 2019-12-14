@@ -1,4 +1,4 @@
-#SudokuPro
+# SudokuPro
 
 ## What is this
 This is a simple yet very powerful sudoku game "client", which can be used to play or create sudoku.
