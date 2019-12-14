@@ -28,6 +28,11 @@ int SudokuBoxWidget::SetValue(int row, int col, unsigned int value, bool read_on
     return this->items[row][col]->SetValue(value, read_only);
 }
 
+void SudokuBoxWidget::OnClicked(int row, int col)
+{
+    emit Clicked(this->HintRow, this->HintCol, row, col);
+}
+
 void SudokuBoxWidget::populate()
 {
     int row = 0;
@@ -38,6 +43,7 @@ void SudokuBoxWidget::populate()
         while (col < 3)
         {
             SudokuItemWidget *item = new SudokuItemWidget(this);
+            connect(item, SIGNAL(Clicked(int, int)), this, SLOT(OnClicked(int, int)));
             this->items[row][col] = item;
             item->HintBoxPosCol = col;
             item->HintBoxPosRow = row;

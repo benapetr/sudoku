@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow
 
     private slots:
         void on_actionExit_triggered();
+        void OnClick(int row, int col);
 
     private:
         SudokuBoard *board;

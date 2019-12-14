@@ -5,6 +5,7 @@ SudokuItemWidget::SudokuItemWidget(QWidget *parent) : QFrame(parent), ui(new Ui:
 {
     this->ui->setupUi(this);
     this->SetValue(0);
+    this->RenderValue();
 }
 
 SudokuItemWidget::~SudokuItemWidget()
@@ -20,6 +21,7 @@ int SudokuItemWidget::SetValue(unsigned int new_value, bool read_only)
         return 2;
     this->value = new_value;
     this->ReadOnly = read_only;
+    this->RenderValue();
     return 0;
 }
 
@@ -27,7 +29,7 @@ void SudokuItemWidget::RenderValue()
 {
     if (this->value == 0)
     {
-        this->ui->pushButton->setText("N");
+        this->ui->pushButton->setText(" ");
         return;
     }
     this->ui->pushButton->setText(QString::number(this->value));
@@ -35,5 +37,5 @@ void SudokuItemWidget::RenderValue()
 
 void SudokuItemWidget::on_pushButton_clicked()
 {
-    emit Clicked();
+    emit Clicked(this->HintBoxPosRow, this->HintBoxPosCol);
 }

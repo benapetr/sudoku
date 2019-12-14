@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->ui->setupUi(this);
     this->board = new SudokuBoard(this);
     this->ui->verticalLayout->addWidget(this->board);
+    connect(this->board, SIGNAL(Clicked(int, int)), this, SLOT(OnClick(int, int)));
 }
 
 MainWindow::~MainWindow()
@@ -17,4 +18,9 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionExit_triggered()
 {
     QApplication::exit();
+}
+
+void MainWindow::OnClick(int row, int col)
+{
+    this->ui->statusbar->showMessage("Selected row " + QString::number(row) + " col " + QString::number(col));
 }

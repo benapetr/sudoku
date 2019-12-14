@@ -28,6 +28,14 @@ class SudokuBoard : public QFrame
         //! 4 - invalid column
         //! 5 - already used
         int SetValue(int row, int col, unsigned int value, bool read_only = false);
+        int SelectedRow = 0;
+        int SelectedCol = 0;
+
+    signals:
+        void Clicked(int row, int col);
+
+    private slots:
+        void OnClick(int brow, int bcol, int row, int col);
 
     private:
         void populate();

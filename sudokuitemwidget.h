@@ -25,7 +25,7 @@ class SudokuItemWidget : public QFrame
         bool ReadOnly = false;
 
     signals:
-        void Clicked();
+        void Clicked(int row, int col);
 
     private slots:
         void on_pushButton_clicked();

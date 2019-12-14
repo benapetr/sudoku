@@ -29,6 +29,12 @@ class SudokuBoxWidget : public QFrame
         int HintRow;
         int HintCol;
 
+    private slots:
+        void OnClicked(int row, int col);
+
+    signals:
+        void Clicked(int box_row, int box_col, int row, int col);
+
     private:
         void populate();
         bool isModified = false;
