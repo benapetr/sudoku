@@ -16,10 +16,20 @@ class MainWindow : public QMainWindow
     public:
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
+        void SetValue(int value, bool read_only = false);
 
     private slots:
         void on_actionExit_triggered();
         void OnClick(int row, int col);
+        void on_pushButton1_clicked();
+        void on_pushButton2_clicked();
+        void on_pushButton3_clicked();
+        void on_pushButton4_clicked();
+        void on_pushButton5_clicked();
+        void on_pushButton6_clicked();
+        void on_pushButton7_clicked();
+        void on_pushButton8_clicked();
+        void on_pushButton9_clicked();
 
     private:
         SudokuBoard *board;

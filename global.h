@@ -7,5 +7,6 @@
 #define E_INVALID_ROW   3
 #define E_INVALID_COL   4
 #define E_ALREADY_USED  5
+#define E_NOT_EMPTY     6
 
 #endif // GLOBAL_H

@@ -25,7 +25,22 @@ int SudokuBoxWidget::SetValue(int row, int col, unsigned int value, bool read_on
         return E_INVALID_ROW;
     if (col < 0 || col > 2)
         return E_INVALID_COL;
-    return this->items[row][col]->SetValue(value, read_only);
+    if (value < 1 || value > 9)
+        return E_INVALID_VALUE;
+    if (this->isUsed[value])
+        return E_ALREADY_USED;
+    int result = this->items[row][col]->SetValue(value, read_only);
+    if (result == 0)
+        this->isUsed[value] = true;
+    return result;
+}
+
+void SudokuBoxWidget::ClearValue(int row, int col)
+{
+    unsigned int value = this->items[row][col]->GetValue();
+    this->items[row][col]->SetValue(0);
+    if (value >= 1 && value <= 9)
+        this->isUsed[value] = false;
 }
 
 void SudokuBoxWidget::OnClicked(int row, int col)
@@ -35,6 +50,9 @@ void SudokuBoxWidget::OnClicked(int row, int col)
 
 void SudokuBoxWidget::populate()
 {
+    int n = 0;
+    while (n < 10)
+        this->isUsed[n++] = false;
     int row = 0;
     int col;
     while (row < 3)

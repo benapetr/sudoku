@@ -9,72 +9,81 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="48"/>
+        <location filename="mainwindow.ui" line="80"/>
+        <location filename="mainwindow.ui" line="83"/>
         <source>1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="55"/>
+        <location filename="mainwindow.ui" line="109"/>
+        <location filename="mainwindow.ui" line="112"/>
         <source>2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="62"/>
+        <location filename="mainwindow.ui" line="138"/>
+        <location filename="mainwindow.ui" line="141"/>
         <source>3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="69"/>
+        <location filename="mainwindow.ui" line="167"/>
+        <location filename="mainwindow.ui" line="170"/>
         <source>4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="76"/>
+        <location filename="mainwindow.ui" line="196"/>
+        <location filename="mainwindow.ui" line="199"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="83"/>
+        <location filename="mainwindow.ui" line="225"/>
+        <location filename="mainwindow.ui" line="228"/>
         <source>6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="90"/>
+        <location filename="mainwindow.ui" line="254"/>
+        <location filename="mainwindow.ui" line="257"/>
         <source>7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="97"/>
+        <location filename="mainwindow.ui" line="283"/>
+        <location filename="mainwindow.ui" line="286"/>
         <source>8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="104"/>
+        <location filename="mainwindow.ui" line="312"/>
+        <location filename="mainwindow.ui" line="315"/>
         <source>9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="123"/>
+        <location filename="mainwindow.ui" line="347"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="137"/>
+        <location filename="mainwindow.ui" line="361"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="142"/>
+        <location filename="mainwindow.ui" line="366"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="147"/>
+        <location filename="mainwindow.ui" line="371"/>
         <source>Load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="152"/>
+        <location filename="mainwindow.ui" line="376"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>

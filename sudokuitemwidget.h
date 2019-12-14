@@ -14,12 +14,10 @@ class SudokuItemWidget : public QFrame
     public:
         explicit SudokuItemWidget(QWidget *parent = nullptr);
         ~SudokuItemWidget();
-        //! Changes value of box, returns:
-        //! 0 -> success
-        //! 1 -> no change
-        //! 2 -> invalid value
+        //! Changes value of box
         int SetValue(unsigned int new_value, bool read_only = false);
         void RenderValue();
+        unsigned int GetValue();
         int HintBoxPosRow;
         int HintBoxPosCol;
         bool ReadOnly = false;

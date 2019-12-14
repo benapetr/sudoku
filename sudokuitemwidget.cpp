@@ -1,4 +1,5 @@
 #include "sudokuitemwidget.h"
+#include "global.h"
 #include "ui_sudokuitemwidget.h"
 
 SudokuItemWidget::SudokuItemWidget(QWidget *parent) : QFrame(parent), ui(new Ui::SudokuItemWidget)
@@ -15,14 +16,16 @@ SudokuItemWidget::~SudokuItemWidget()
 
 int SudokuItemWidget::SetValue(unsigned int new_value, bool read_only)
 {
+    if (this->value != 0)
+        return E_NOT_EMPTY;
     if (this->value == new_value)
-        return 1;
-    if (new_value > 9)
-        return 2;
+        return E_NO_CHANGE;
+    if (new_value < 1 || new_value > 9)
+        return E_INVALID_VALUE;
     this->value = new_value;
     this->ReadOnly = read_only;
     this->RenderValue();
-    return 0;
+    return SUCCESS;
 }
 
 void SudokuItemWidget::RenderValue()
@@ -33,6 +36,11 @@ void SudokuItemWidget::RenderValue()
         return;
     }
     this->ui->pushButton->setText(QString::number(this->value));
+}
+
+unsigned int SudokuItemWidget::GetValue()
+{
+    return this->value;
 }
 
 void SudokuItemWidget::on_pushButton_clicked()

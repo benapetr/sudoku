@@ -56,6 +56,11 @@ int SudokuBoard::SetValue(int row, int col, unsigned int value, bool read_only)
     return this->boxes[boxr][boxc]->SetValue(row - (3 * boxr), col - (3 * boxc), value, read_only);
 }
 
+int SudokuBoard::SetValue(unsigned int value, bool read_only)
+{
+    return this->SetValue(this->SelectedRow-1, this->SelectedCol-1, value, read_only);
+}
+
 void SudokuBoard::OnClick(int brow, int bcol, int row, int col)
 {
     this->SelectedCol = (bcol * 3) + col + 1;
