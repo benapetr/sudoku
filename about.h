@@ -1,3 +1,5 @@
+// Created by Petr Bena <petr@bena.rocks> (c) 2019, all rights reserved
+
 #ifndef ABOUT_H
 #define ABOUT_H
 

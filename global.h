@@ -1,3 +1,5 @@
+// Created by Petr Bena <petr@bena.rocks> (c) 2019, all rights reserved
+
 #ifndef GLOBAL_H
 #define GLOBAL_H
 

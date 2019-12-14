@@ -791,7 +791,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>16</pointsize>
+       <pointsize>19</pointsize>
       </font>
      </property>
      <property name="autoFillBackground">

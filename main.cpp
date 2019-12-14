@@ -1,3 +1,5 @@
+// Created by Petr Bena <petr@bena.rocks> (c) 2019, all rights reserved
+
 #include "mainwindow.h"
 #include "global.h"
 

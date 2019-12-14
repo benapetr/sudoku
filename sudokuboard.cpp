@@ -1,3 +1,5 @@
+// Created by Petr Bena <petr@bena.rocks> (c) 2019, all rights reserved
+
 #include "sudokuboard.h"
 #include "sudokuboxwidget.h"
 #include "sudokuitemwidget.h"
@@ -144,6 +146,23 @@ QString SudokuBoard::ExportToCommandList()
             }
         }
     }
+
+    result += "\nSwitchMode game\n";
+
+    foreach (SudokuBoxWidget *box, this->allBoxes)
+    {
+        QList<SudokuItemWidget *> items = box->GetItems();
+        foreach (SudokuItemWidget *item, items)
+        {
+            if (!item->ReadOnly)
+            {
+                result += "SetValue " + QString::number(item->HintBoxPosRow + (box->HintRow * 3) + 1) +
+                        " " + QString::number(item->HintBoxPosCol + (box->HintCol * 3) + 1) +
+                        " " + QString::number(item->GetValue()) + "\n";
+            }
+        }
+    }
+
     result += "# Finished at " + QDateTime::currentDateTime().toString() + "\n\n";
     this->isModified = false;
     return result;

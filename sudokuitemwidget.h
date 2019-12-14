@@ -1,3 +1,5 @@
+// Created by Petr Bena <petr@bena.rocks> (c) 2019, all rights reserved
+
 #ifndef SUDOKUITEMWIDGET_H
 #define SUDOKUITEMWIDGET_H
 
@@ -14,6 +16,13 @@ enum SudokuItemWidget_ViewMode
     SudokuItemWidget_ViewMode_Hint
 };
 
+enum SudokuItemWidget_SelectionMode
+{
+    SudokuItemWidget_SelectionMode_None,
+    SudokuItemWidget_SelectionMode_This,
+    SudokuItemWidget_SelectionMode_Vector
+};
+
 class SudokuItemWidget : public QFrame
 {
         Q_OBJECT
@@ -28,6 +37,7 @@ class SudokuItemWidget : public QFrame
         unsigned int GetValue();
         void Reset();
         void SwitchView(SudokuItemWidget_ViewMode mode);
+        void UpdateColors();
         int HintBoxPosRow;
         int HintBoxPosCol;
         bool ReadOnly = false;
@@ -48,6 +58,7 @@ class SudokuItemWidget : public QFrame
         void on_pushButton_Hint9_clicked();
 
     private:
+        SudokuItemWidget_SelectionMode selectionMode = SudokuItemWidget_SelectionMode_None;
         SudokuItemWidget_ViewMode viewMode = SudokuItemWidget_ViewMode_Value;
         bool valueHint[10];
         unsigned int value = 0;

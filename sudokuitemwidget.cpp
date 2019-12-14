@@ -1,3 +1,5 @@
+// Created by Petr Bena <petr@bena.rocks> (c) 2019, all rights reserved
+
 #include "sudokuitemwidget.h"
 #include "global.h"
 #include "ui_sudokuitemwidget.h"
@@ -27,6 +29,7 @@ int SudokuItemWidget::SetValue(unsigned int new_value, bool read_only)
     this->value = new_value;
     this->ReadOnly = read_only;
     this->RenderValue();
+    this->UpdateColors();
     return SUCCESS;
 }
 
@@ -104,6 +107,15 @@ void SudokuItemWidget::SwitchView(SudokuItemWidget_ViewMode mode)
             this->ui->pushButton_Hint9->hide();
             break;
     }
+}
+
+void SudokuItemWidget::UpdateColors()
+{
+    //this->ui->pushButton->setAutoFillBackground(true);
+    if (this->ReadOnly)
+        this->ui->pushButton->setStyleSheet("color: rgb(0, 0, 0)");
+    else
+        this->ui->pushButton->setStyleSheet("color: rgb(0, 60, 180)");
 }
 
 void SudokuItemWidget::on_pushButton_clicked()
