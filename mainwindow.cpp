@@ -4,13 +4,16 @@
 #include "./ui_mainwindow.h"
 #include "sudokuboard.h"
 #include "commandprocessor.h"
+#include "options.h"
 #include "errors.h"
+#include <QSettings>
 #include <QFile>
 #include <QMessageBox>
 #include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
+    Options::Initialize();
     this->ui->setupUi(this);
     this->labelMode = new QLabel(this);
     this->labelStatus = new QLabel(this);
@@ -18,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->ui->statusbar->addWidget(this->labelStatus);
     this->board = nullptr;
     this->New();
+    if (Options::Autoload() && !Options::LastFile().isEmpty())
+    {
+        this->Load(Options::LastFile());
+    }
 }
 
 MainWindow::~MainWindow()
@@ -33,6 +40,8 @@ void MainWindow::New()
     this->ui->verticalLayout->addWidget(this->board);
     connect(this->board, SIGNAL(Clicked(int, int)), this, SLOT(OnClick(int, int)));
     this->SwitchMode(GameMode_Editor);
+    this->currentFile = "";
+    this->UpdateTitle();
 }
 
 void MainWindow::SetValue(int value)
@@ -97,7 +106,47 @@ bool MainWindow::Save(QString path)
 
     file.write(this->board->ExportToCommandList().toUtf8());
     file.close();
+    this->currentFile = path;
+    this->UpdateTitle();
     return true;
+}
+
+bool MainWindow::Load(QString path)
+{
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+        return false;
+    }
+
+    QString input_text = file.readAll();
+    file.close();
+
+    this->New();
+
+    CommandProcessor cp(this->board);
+    if (!cp.ProcessText(input_text))
+    {
+        QMessageBox::warning(this, "Unable to load file", "File can't be processed, error at line " + QString::number(cp.LastLine) + ": " + cp.LastError);
+        return false;
+    }
+
+    if (cp.GetGM() != this->gameMode)
+        this->SwitchMode(cp.GetGM());
+
+    this->currentFile = path;
+    this->UpdateTitle();
+    this->board->ResetChange();
+    return true;
+}
+
+void MainWindow::UpdateTitle()
+{
+    if (this->currentFile.isEmpty())
+        this->setWindowTitle("SudokuPro [unsaved]");
+    else
+        this->setWindowTitle("SudokuPro [" + this->currentFile + "]");
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -180,7 +229,10 @@ void MainWindow::on_actionSave_as_triggered()
     if (path.isEmpty())
         return;
     if (this->Save(path))
-        this->currentFile = path;
+    {
+        if (Options::Autoload())
+            Options::SetLastFile(path);
+    }
 }
 
 void MainWindow::on_actionNew_triggered()
@@ -201,29 +253,11 @@ void MainWindow::on_actionLoad_triggered()
     if (path.isEmpty())
         return;
 
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+    if (!this->Load(path))
         return;
-    }
 
-    QString input_text = file.readAll();
-    file.close();
-
-    this->New();
-
-    CommandProcessor cp(this->board);
-    if (!cp.ProcessText(input_text))
-    {
-        QMessageBox::warning(this, "Unable to load file", "File can't be processed, error at line " + QString::number(cp.LastLine) + ": " + cp.LastError);
-        return;
-    }
-
-    if (cp.GetGM() != this->gameMode)
-        this->SwitchMode(cp.GetGM());
-
-    this->currentFile = path;
+    if (Options::Autoload())
+        Options::SetLastFile(path);
 }
 
 void MainWindow::on_actionSave_triggered()

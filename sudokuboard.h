@@ -17,7 +17,6 @@ class SudokuItemWidget;
 class SudokuBoard : public QFrame
 {
         Q_OBJECT
-
     public:
         explicit SudokuBoard(QWidget *parent = nullptr);
         ~SudokuBoard();
@@ -36,6 +35,7 @@ class SudokuBoard : public QFrame
         int SetValueHint(int row, int col, unsigned int value);
         int SetValueHint(unsigned int value);
         QString ExportToCommandList();
+        void ResetChange();
         int SelectedRow = 0;
         int SelectedCol = 0;
 

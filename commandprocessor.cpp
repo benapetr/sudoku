@@ -57,7 +57,7 @@ bool CommandProcessor::processSetValue(QList<QString> parameters)
         return false;
     }
 
-    int result = this->board->SetValue(parameters[0].toInt(), parameters[1].toInt(), parameters[2].toUInt(), this->gameMode == GameMode_Editor);
+    int result = this->board->SetValue(parameters[0].toInt()-1, parameters[1].toInt()-1, parameters[2].toUInt(), this->gameMode == GameMode_Editor);
     if (result > 1)
     {
         this->LastError = Errors::ToString(result);
@@ -80,7 +80,7 @@ bool CommandProcessor::processSetHint(QList<QString> parameters)
         return false;
     }
 
-    int result = this->board->SetValueHint(parameters[0].toInt(), parameters[1].toInt(), parameters[2].toUInt());
+    int result = this->board->SetValueHint(parameters[0].toInt()-1, parameters[1].toInt()-1, parameters[2].toUInt());
     if (result > 1)
     {
         this->LastError = Errors::ToString(result);

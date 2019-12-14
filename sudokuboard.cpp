@@ -49,7 +49,7 @@ int SudokuBoard::SetValue(int row, int col, unsigned int value, bool read_only)
     if (col < 0 || col > 8)
         return E_INVALID_COL;
 
-    if (value > 1)
+    if (value > 0)
     {
         // Check hints to detect if this value is already in some row or column, if yes, we might want to find where
         // this is much faster than traversing the actual box structure
@@ -200,6 +200,11 @@ QString SudokuBoard::ExportToCommandList()
     result += "# Finished at " + QDateTime::currentDateTime().toString() + "\n\n";
     this->isModified = false;
     return result;
+}
+
+void SudokuBoard::ResetChange()
+{
+    this->isModified = false;
 }
 
 void SudokuBoard::OnClick(int brow, int bcol, int row, int col)

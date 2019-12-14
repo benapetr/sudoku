@@ -398,6 +398,9 @@
         <property name="text">
          <string>Hints</string>
         </property>
+        <property name="shortcut">
+         <string>H</string>
+        </property>
        </widget>
       </item>
       <item>
@@ -444,7 +447,15 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuSudokus">
+    <property name="title">
+     <string>Sudokus</string>
+    </property>
+    <addaction name="actionFork"/>
+    <addaction name="separator"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuSudokus"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -479,6 +490,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionFork">
+   <property name="text">
+    <string>Fork</string>
    </property>
   </action>
  </widget>

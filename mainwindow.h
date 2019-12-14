@@ -26,6 +26,8 @@ class MainWindow : public QMainWindow
         void UpdateStatus(QString tx);
         void SwitchMode(GameMode mode);
         bool Save(QString path);
+        bool Load(QString path);
+        void UpdateTitle();
 
     private slots:
         void on_actionExit_triggered();
