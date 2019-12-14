@@ -35,6 +35,8 @@ QString ErrorToString(int error)
             return "Invalid row";
         case E_INVALID_VALUE:
             return "Invalid value";
+        case E_READ_ONLY:
+            return "This field is read only, you can only change it in editor mode";
     }
     return "Unknown error (" + QString::number(error) + ")";
 }
@@ -136,7 +138,7 @@ void MainWindow::on_pushButton9_clicked()
 
 void MainWindow::on_pushButton_Wipe_clicked()
 {
-    int result = this->board->ClearValue();
+    int result = this->board->ClearValue(this->gameMode == GameMode_Editor);
     if (result > 1)
     {
         this->UpdateStatus(ErrorToString(result));

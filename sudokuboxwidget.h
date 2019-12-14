@@ -26,7 +26,7 @@ class SudokuBoxWidget : public QFrame
         //! 4 - invalid column
         //! 5 - already used
         int SetValue(int row, int col, unsigned int value, bool read_only = false);
-        int ClearValue(int row, int col);
+        int ClearValue(int row, int col, bool read_only = false);
         int HintRow;
         int HintCol;
 
