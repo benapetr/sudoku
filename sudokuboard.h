@@ -43,6 +43,7 @@ class SudokuBoard : public QFrame
     private:
         void populate();
         SudokuBoxWidget *boxes[3][3];
+        unsigned int valueHint[9][9];
         //! To make enumerations easy
         QList<SudokuBoxWidget*> allBoxes;
         Ui::SudokuBoard *ui;

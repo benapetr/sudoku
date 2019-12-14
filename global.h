@@ -1,6 +1,8 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#define APP_VERSION "1.0.0.0"
+
 #define SUCCESS         0
 #define E_NO_CHANGE     1
 #define E_INVALID_VALUE 2

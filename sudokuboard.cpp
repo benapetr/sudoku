@@ -51,9 +51,31 @@ int SudokuBoard::SetValue(int row, int col, unsigned int value, bool read_only)
     if (col < 0 || col > 8)
         return E_INVALID_COL;
 
+    if (value > 1)
+    {
+        // Check hints to detect if this value is already in some row or column, if yes, we might want to find where
+        // this is much faster than traversing the actual box structure
+        int c = 0;
+        while (c < 9)
+        {
+            if (this->valueHint[row][c++] == value)
+                return E_ALREADY_USED;
+        }
+        // Same with whole column
+        int r = 0;
+        while (r < 9)
+        {
+            if (this->valueHint[r++][col] == value)
+                return E_ALREADY_USED;
+        }
+    }
+
     int boxr = GetBoxID(row);
     int boxc = GetBoxID(col);
-    return this->boxes[boxr][boxc]->SetValue(row - (3 * boxr), col - (3 * boxc), value, read_only);
+    int result = this->boxes[boxr][boxc]->SetValue(row - (3 * boxr), col - (3 * boxc), value, read_only);
+    if (result == SUCCESS)
+        this->valueHint[row][col] = value;
+    return result;
 }
 
 int SudokuBoard::SetValue(unsigned int value, bool read_only)
@@ -70,7 +92,10 @@ int SudokuBoard::ClearValue(int row, int col)
 
     int boxr = GetBoxID(row);
     int boxc = GetBoxID(col);
-    return this->boxes[boxr][boxc]->ClearValue(row - (3 * boxr), col - (3 * boxc));
+    int result = this->boxes[boxr][boxc]->ClearValue(row - (3 * boxr), col - (3 * boxc));
+    if (result == SUCCESS)
+        this->valueHint[row][col] = 0;
+    return result;
 }
 
 int SudokuBoard::ClearValue()
@@ -96,6 +121,7 @@ void SudokuBoard::populate()
         col = 0;
         while (col < 3)
         {
+            this->valueHint[row][col] = 0;
             SudokuBoxWidget *bw = new SudokuBoxWidget(this);
             this->boxes[row][col] = bw;
             this->ui->gridLayout->addWidget(bw, row, col);
