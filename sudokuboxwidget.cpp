@@ -2,6 +2,7 @@
 
 #include "sudokuboxwidget.h"
 #include "sudokuitemwidget.h"
+#include "options.h"
 #include "ui_sudokuboxwidget.h"
 #include "global.h"
 
@@ -34,7 +35,18 @@ int SudokuBoxWidget::SetValue(int row, int col, unsigned int value, bool read_on
     this->items[row][col]->SwitchView(SudokuItemWidget_ViewMode_Value);
     int result = this->items[row][col]->SetValue(value, read_only);
     if (result == 0)
+    {
         this->isUsed[value] = true;
+        // if this is not inserted in editor mode, check if there aren't some hints to get rid of
+        if (!read_only && Options::GetRemoveHints())
+        {
+            foreach (SudokuItemWidget *item, this->allItems)
+            {
+                if (item->GetCurrentViewMode() == SudokuItemWidget_ViewMode_Hint && item->GetValueHint(value))
+                    item->UnsetValueHint(value);
+            }
+        }
+    }
     return result;
 }
 

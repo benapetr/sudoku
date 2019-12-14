@@ -14,6 +14,9 @@ namespace Ui
 class SudokuBoxWidget;
 class SudokuItemWidget;
 
+//! Represents a sudoku board
+//! Note: this program count numbers from 0, so first column in program has ID 0 and last nineth has ID 8, the human representation as well as exported
+//! data however work from 1 to 9
 class SudokuBoard : public QFrame
 {
         Q_OBJECT
@@ -35,6 +38,7 @@ class SudokuBoard : public QFrame
         int SetValueHint(int row, int col, unsigned int value);
         int SetValueHint(unsigned int value);
         QString ExportToCommandList();
+        SudokuItemWidget *GetItem(int row, int col);
         void ResetChange();
         int SelectedRow = 0;
         int SelectedCol = 0;
@@ -47,6 +51,8 @@ class SudokuBoard : public QFrame
 
     private:
         void populate();
+        //! Removes all hints for a value in whole axis surrounding
+        void removeHints(int row, int col, unsigned int value);
         bool isModified = false;
         SudokuBoxWidget *boxes[3][3];
         unsigned int valueHint[9][9];

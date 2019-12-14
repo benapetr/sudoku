@@ -3,6 +3,7 @@
 #include "sudokuboard.h"
 #include "sudokuboxwidget.h"
 #include "sudokuitemwidget.h"
+#include "options.h"
 #include "ui_sudokuboard.h"
 #include "global.h"
 #include <QDateTime>
@@ -75,6 +76,11 @@ int SudokuBoard::SetValue(int row, int col, unsigned int value, bool read_only)
     {
         this->valueHint[row][col] = value;
         this->isModified = true;
+        if (!read_only && Options::GetRemoveHints())
+        {
+            // Check surrounding boxes if there are hints to remove
+            this->removeHints(row, col, value);
+        }
     }
     return result;
 }
@@ -178,9 +184,9 @@ QString SudokuBoard::ExportToCommandList()
         {
             if (!item->ReadOnly && !item->IsEmpty())
             {
-                result += "SetValue " + QString::number(item->HintBoxPosRow + (box->HintRow * 3) + 1) +
-                        " " + QString::number(item->HintBoxPosCol + (box->HintCol * 3) + 1) +
-                        " " + QString::number(item->GetValue()) + "\n";
+                result +=   "SetValue " + QString::number(item->HintBoxPosRow + (box->HintRow * 3) + 1) +
+                            " " + QString::number(item->HintBoxPosCol + (box->HintCol * 3) + 1) +
+                            " " + QString::number(item->GetValue()) + "\n";
             } else if (item->GetCurrentViewMode() == SudokuItemWidget_ViewMode_Hint)
             {
                 unsigned int n = 0;
@@ -200,6 +206,13 @@ QString SudokuBoard::ExportToCommandList()
     result += "# Finished at " + QDateTime::currentDateTime().toString() + "\n\n";
     this->isModified = false;
     return result;
+}
+
+SudokuItemWidget *SudokuBoard::GetItem(int row, int col)
+{
+    int boxr = GetBoxID(row);
+    int boxc = GetBoxID(col);
+    return this->boxes[boxr][boxc]->GetItem(row - (3 * boxr), col - (3 * boxc));
 }
 
 void SudokuBoard::ResetChange()
@@ -247,5 +260,23 @@ void SudokuBoard::populate()
             this->valueHint[row][col++] = 0;
         }
         row++;
+    }
+}
+
+void SudokuBoard::removeHints(int row, int col, unsigned int value)
+{
+    int rx = 0;
+    int cx = 0;
+    while (rx < 9)
+    {
+        SudokuItemWidget *item = this->GetItem(rx++, col);
+        if (item->GetCurrentViewMode() == SudokuItemWidget_ViewMode_Hint && item->GetValueHint(value))
+            item->UnsetValueHint(value);
+    }
+    while (cx < 9)
+    {
+        SudokuItemWidget *item = this->GetItem(row, cx++);
+        if (item->GetCurrentViewMode() == SudokuItemWidget_ViewMode_Hint && item->GetValueHint(value))
+            item->UnsetValueHint(value);
     }
 }
