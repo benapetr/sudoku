@@ -45,6 +45,7 @@ class SudokuBoard : public QFrame
         bool FindHint();
         bool FindHint(int row, int col);
         int SolveRecursively();
+        int CountSolutions();
         QString ExportToCommandList();
         SudokuItemWidget *GetItem(int row, int col);
         SudokuBoxWidget *GetBox(int row, int col);

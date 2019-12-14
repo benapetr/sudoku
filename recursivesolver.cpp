@@ -2,23 +2,17 @@
 
 #include "recursivesolver.h"
 
+int RecursiveSolver::Count(unsigned int sudoku[9][9])
+{
+    QHash<int, QList<int>> hash = RecursiveSolver::vectorsToHash(sudoku);
+    int result = 0;
+    RecursiveSolver::count(&hash, &result);
+    return result;
+}
+
 QHash<int, QList<int>> RecursiveSolver::Solve(unsigned int sudoku[9][9], int *solutions)
 {
-    QHash<int, QList<int>> qsudoku;
-    int row, col;
-    row = 0;
-    while (row < 9)
-    {
-        col = 0;
-        qsudoku.insert(row, QList<int>());
-        while (col < 9)
-        {
-            qsudoku[row].insert(col, sudoku[row][col]);
-            col++;
-        }
-        row++;
-    }
-    return Solve(qsudoku, solutions);
+    return Solve(RecursiveSolver::vectorsToHash(sudoku), solutions);
 }
 
 QHash<int, QList<int>> RecursiveSolver::Solve(QHash<int, QList<int>> sudoku, int *solutions)
@@ -48,6 +42,25 @@ int RecursiveSolver::GetBoxID(int p)
     return -1;
 }
 
+QHash<int, QList<int> > RecursiveSolver::vectorsToHash(unsigned int sudoku[9][9])
+{
+    QHash<int, QList<int>> qsudoku;
+    int row, col;
+    row = 0;
+    while (row < 9)
+    {
+        col = 0;
+        qsudoku.insert(row, QList<int>());
+        while (col < 9)
+        {
+            qsudoku[row].insert(col, sudoku[row][col]);
+            col++;
+        }
+        row++;
+    }
+    return qsudoku;
+}
+
 bool RecursiveSolver::solve(QHash<int, QList<int>> *sudoku, int *solutions)
 {
     int empty_row, empty_col;
@@ -70,6 +83,34 @@ bool RecursiveSolver::solve(QHash<int, QList<int>> *sudoku, int *solutions)
         number++;
     }
     // No solutions from here
+    (*sudoku)[empty_row][empty_col] = 0;
+    return false;
+}
+
+bool RecursiveSolver::count(QHash<int, QList<int> > *sudoku, int *solutions)
+{
+    if (*solutions > 100)
+        return true;
+    int empty_row, empty_col;
+    if (!RecursiveSolver::findNextEmptyCell(sudoku, &empty_row, &empty_col))
+    {
+        // Solved
+        (*solutions)++;
+        return true;
+    }
+    // Try all 9 numbers on this cell, starting with 1
+    int number = 1;
+    while (number < 10)
+    {
+        if (RecursiveSolver::valueCanBeUsed(sudoku, empty_row, empty_col, number))
+        {
+            (*sudoku)[empty_row][empty_col] = number;
+            // Here we are counting solutions, so even if this sudoku is already solved, let's try another number
+            RecursiveSolver::count(sudoku, solutions);
+        }
+        number++;
+    }
+    // No more solutions from here
     (*sudoku)[empty_row][empty_col] = 0;
     return false;
 }

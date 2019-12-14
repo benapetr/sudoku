@@ -335,3 +335,15 @@ void MainWindow::on_actionSolve_recursively_triggered()
         this->UpdateStatus("Unable to resolve: " + Errors::ToString(result));
     }
 }
+
+void MainWindow::on_actionCount_solutions_triggered()
+{
+    int result = this->board->CountSolutions();
+    if (result > 100)
+    {
+        QMessageBox::information(this, "Solutions found", "This sudoku has more than 100 solutions, search was aborted to prevent lock up");
+    } else
+    {
+        QMessageBox::information(this, "Solutions found", "This sudoku has " + QString::number(result) + " solutions");
+    }
+}
