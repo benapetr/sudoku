@@ -462,6 +462,7 @@
     <addaction name="actionFlag_invalid_hints"/>
     <addaction name="actionFind_hints"/>
     <addaction name="actionFind_all_hints"/>
+    <addaction name="actionSolve_recursively"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSudoku"/>
@@ -531,6 +532,11 @@
   <action name="actionFind_all_hints">
    <property name="text">
     <string>Find all hints</string>
+   </property>
+  </action>
+  <action name="actionSolve_recursively">
+   <property name="text">
+    <string>Solve recursively</string>
    </property>
   </action>
  </widget>

@@ -19,6 +19,8 @@ QString Errors::ToString(int error)
             return "Invalid value";
         case E_READ_ONLY:
             return "This field is read only, you can only change it in editor mode";
+        case E_NO_SOLUTIONS:
+            return "Unable to find a solution";
     }
     return "Unknown error (" + QString::number(error) + ")";
 }

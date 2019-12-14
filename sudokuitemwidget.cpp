@@ -27,7 +27,10 @@ int SudokuItemWidget::SetValue(unsigned int new_value, bool read_only)
     if (this->ReadOnly && !read_only)
         return E_READ_ONLY;
     this->value = new_value;
-    this->ReadOnly = read_only;
+    if (value == 0)
+        this->ReadOnly = false;
+    else
+        this->ReadOnly = read_only;
     this->RenderValue();
     this->UpdateColors();
     return SUCCESS;

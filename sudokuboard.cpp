@@ -5,7 +5,9 @@
 #include "sudokuitemwidget.h"
 #include "options.h"
 #include "ui_sudokuboard.h"
+#include "recursivesolver.h"
 #include "global.h"
+#include <QDebug>
 #include <QDateTime>
 SudokuBoard::SudokuBoard(QWidget *parent) : QFrame(parent), ui(new Ui::SudokuBoard)
 {
@@ -248,6 +250,43 @@ bool SudokuBoard::FindHint(int row, int col)
         }
     }
     return false;
+}
+
+int SudokuBoard::SolveRecursively()
+{
+    int solved = 0;
+    QHash<int, QList<int>> solution = RecursiveSolver::Solve(this->valueHint, &solved);
+
+    if (solved == 0)
+    {
+        // Unable to solve
+        return E_NO_SOLUTIONS;
+    }
+
+    // Fill up each missing value
+    int row = 0;
+    int col;
+    while (row < 9)
+    {
+        col = 0;
+        while (col < 9)
+        {
+            if (this->valueHint[row][col] == 0)
+            {
+                int result = this->SetValue(row, col, solution[row][col]);
+                if (result > 1)
+                {
+                    qDebug() << "Internal error: " + QString::number(result);
+                    // This should never happen
+                    return E_INTERNAL_RESOLVER_ERR1;
+                }
+            }
+            col++;
+        }
+        row++;
+    }
+
+    return SUCCESS;
 }
 
 QString SudokuBoard::ExportToCommandList()

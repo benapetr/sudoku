@@ -53,6 +53,8 @@ class MainWindow : public QMainWindow
         void on_actionFind_all_hints_triggered();
         void on_actionFind_hints_triggered();
 
+        void on_actionSolve_recursively_triggered();
+
     private:
         void closeEvent(QCloseEvent *event);
         bool NotifyChanges();

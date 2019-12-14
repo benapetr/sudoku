@@ -326,3 +326,12 @@ void MainWindow::on_actionFind_hints_triggered()
     if (!this->board->FindHint())
         this->UpdateStatus("No hints found");
 }
+
+void MainWindow::on_actionSolve_recursively_triggered()
+{
+    int result = this->board->SolveRecursively();
+    if (result != SUCCESS)
+    {
+        this->UpdateStatus("Unable to resolve: " + Errors::ToString(result));
+    }
+}
