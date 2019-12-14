@@ -50,6 +50,16 @@ int SudokuBoxWidget::ClearValue(int row, int col, bool read_only)
     }
 }
 
+SudokuItemWidget *SudokuBoxWidget::GetItem(int row, int col)
+{
+    return this->items[row][col];
+}
+
+QList<SudokuItemWidget *> SudokuBoxWidget::GetItems()
+{
+    return this->allItems;
+}
+
 void SudokuBoxWidget::OnClicked(int row, int col)
 {
     emit Clicked(this->HintRow, this->HintCol, row, col);
@@ -70,6 +80,7 @@ void SudokuBoxWidget::populate()
             SudokuItemWidget *item = new SudokuItemWidget(this);
             connect(item, SIGNAL(Clicked(int, int)), this, SLOT(OnClicked(int, int)));
             this->items[row][col] = item;
+            this->allItems.append(item);
             item->HintBoxPosCol = col;
             item->HintBoxPosRow = row;
             this->ui->gridLayout->addWidget(item, row, col);

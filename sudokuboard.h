@@ -31,6 +31,7 @@ class SudokuBoard : public QFrame
         int SetValue(unsigned int value, bool read_only = false);
         int ClearValue(int row, int col, bool read_only = false);
         int ClearValue(bool read_only = false);
+        QString ExportToCommandList();
         int SelectedRow = 0;
         int SelectedCol = 0;
 

@@ -2,6 +2,9 @@
 #include "global.h"
 #include "./ui_mainwindow.h"
 #include "sudokuboard.h"
+#include <QFile>
+#include <QMessageBox>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -81,6 +84,20 @@ void MainWindow::SwitchMode(GameMode mode)
     }
 }
 
+bool MainWindow::Save(QString path)
+{
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+    {
+        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+        return false;
+    }
+
+    file.write(this->board->ExportToCommandList().toUtf8());
+    file.close();
+    return true;
+}
+
 void MainWindow::on_actionExit_triggered()
 {
     QApplication::exit();
@@ -151,4 +168,33 @@ void MainWindow::on_pushButton_PlayGame_clicked()
         return;
 
     this->SwitchMode(GameMode_Player);
+}
+
+void MainWindow::on_actionSave_as_triggered()
+{
+    QString path = QFileDialog::getSaveFileName(this, "Save as", "", "Sudoku command batch file (*.scb);;All Files (*)");
+    if (path.isEmpty())
+        return;
+    if (this->Save(path))
+        this->currentFile = path;
+}
+
+void MainWindow::on_actionNew_triggered()
+{
+
+}
+
+void MainWindow::on_actionLoad_triggered()
+{
+
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    if (this->currentFile.isEmpty())
+    {
+        this->on_actionSave_as_triggered();
+        return;
+    }
+    this->Save(this->currentFile);
 }

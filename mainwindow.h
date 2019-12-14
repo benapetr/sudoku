@@ -27,6 +27,7 @@ class MainWindow : public QMainWindow
         void UpdateMode(QString mode);
         void UpdateStatus(QString tx);
         void SwitchMode(GameMode mode);
+        bool Save(QString path);
 
     private slots:
         void on_actionExit_triggered();
@@ -41,10 +42,14 @@ class MainWindow : public QMainWindow
         void on_pushButton8_clicked();
         void on_pushButton9_clicked();
         void on_pushButton_Wipe_clicked();
-
         void on_pushButton_PlayGame_clicked();
+        void on_actionSave_as_triggered();
+        void on_actionNew_triggered();
+        void on_actionLoad_triggered();
+        void on_actionSave_triggered();
 
     private:
+        QString currentFile;
         GameMode gameMode = GameMode_Editor;
         QLabel *labelMode;
         QLabel *labelStatus;

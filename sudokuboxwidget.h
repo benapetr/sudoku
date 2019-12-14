@@ -2,6 +2,7 @@
 #define SUDOKUBOXWIDGET_H
 
 #include <QFrame>
+#include <QList>
 
 namespace Ui
 {
@@ -27,6 +28,8 @@ class SudokuBoxWidget : public QFrame
         //! 5 - already used
         int SetValue(int row, int col, unsigned int value, bool read_only = false);
         int ClearValue(int row, int col, bool read_only = false);
+        SudokuItemWidget *GetItem(int row, int col);
+        QList<SudokuItemWidget*> GetItems();
         int HintRow;
         int HintCol;
 
@@ -40,6 +43,7 @@ class SudokuBoxWidget : public QFrame
         void populate();
         bool isUsed[10];
         bool isModified = false;
+        QList<SudokuItemWidget*> allItems;
         Ui::SudokuBoxWidget *ui;
         SudokuItemWidget *items[3][3];
 };

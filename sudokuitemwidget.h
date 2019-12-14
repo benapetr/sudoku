@@ -37,23 +37,14 @@ class SudokuItemWidget : public QFrame
 
     private slots:
         void on_pushButton_clicked();
-
         void on_pushButton_Hint2_clicked();
-
         void on_pushButton_Hint1_clicked();
-
         void on_pushButton_Hint3_clicked();
-
         void on_pushButton_Hint4_clicked();
-
         void on_pushButton_Hint5_clicked();
-
         void on_pushButton_Hint6_clicked();
-
         void on_pushButton_Hint7_clicked();
-
         void on_pushButton_Hint8_clicked();
-
         void on_pushButton_Hint9_clicked();
 
     private:

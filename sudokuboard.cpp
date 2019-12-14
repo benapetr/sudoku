@@ -1,8 +1,9 @@
 #include "sudokuboard.h"
 #include "sudokuboxwidget.h"
+#include "sudokuitemwidget.h"
 #include "ui_sudokuboard.h"
 #include "global.h"
-
+#include <QDateTime>
 SudokuBoard::SudokuBoard(QWidget *parent) : QFrame(parent), ui(new Ui::SudokuBoard)
 {
     this->ui->setupUi(this);
@@ -103,6 +104,49 @@ int SudokuBoard::ClearValue(bool read_only)
     return this->ClearValue(this->SelectedRow - 1, this->SelectedCol - 1, read_only);
 }
 
+QString SudokuBoard::ExportToCommandList()
+{
+    QString result = "# Export of SudokuPro version " + QString(APP_VERSION) + "\n";
+    result += "# This file contains a list of commands that can be issued to reconstruct this sudoku:\n\n";
+    int row = 0;
+    int col;
+    while (row < 9)
+    {
+        result += "# ";
+        col = 0;
+        while (col < 9)
+        {
+            QString value;
+            if (this->valueHint[row][col] == 0)
+                value = " ";
+            else
+                value = QString::number(this->valueHint[row][col]);
+
+            result += value;
+            col++;
+        }
+        result += "\n";
+        row++;
+    }
+
+    result += "\nSwitchMode editor\n";
+    foreach (SudokuBoxWidget *box, this->allBoxes)
+    {
+        QList<SudokuItemWidget *> items = box->GetItems();
+        foreach (SudokuItemWidget *item, items)
+        {
+            if (item->ReadOnly)
+            {
+                result += "SetValue " + QString::number(item->HintBoxPosRow + (box->HintRow * 3) + 1) +
+                        " " + QString::number(item->HintBoxPosCol + (box->HintCol * 3) + 1) +
+                        " " + QString::number(item->GetValue()) + "\n";
+            }
+        }
+    }
+    result += "# Finished at " + QDateTime::currentDateTime().toString() + "\n\n";
+    return result;
+}
+
 void SudokuBoard::OnClick(int brow, int bcol, int row, int col)
 {
     this->SelectedCol = (bcol * 3) + col + 1;
@@ -121,7 +165,6 @@ void SudokuBoard::populate()
         col = 0;
         while (col < 3)
         {
-            this->valueHint[row][col] = 0;
             SudokuBoxWidget *bw = new SudokuBoxWidget(this);
             this->boxes[row][col] = bw;
             this->ui->gridLayout->addWidget(bw, row, col);
@@ -130,6 +173,18 @@ void SudokuBoard::populate()
             bw->HintRow = row;
             connect(bw, SIGNAL(Clicked(int, int, int, int)), this, SLOT(OnClick(int, int, int, int)));
             col++;
+        }
+        row++;
+    }
+
+    // Reset hint
+    row = 0;
+    while (row < 9)
+    {
+        col = 0;
+        while (col < 9)
+        {
+            this->valueHint[row][col++] = 0;
         }
         row++;
     }
