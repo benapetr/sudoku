@@ -107,6 +107,28 @@ int SudokuBoard::ClearValue(bool read_only)
     return this->ClearValue(this->SelectedRow - 1, this->SelectedCol - 1, read_only);
 }
 
+int SudokuBoard::SetValueHint(int row, int col, unsigned int value)
+{
+    if (row < 0 || row > 8)
+        return E_INVALID_ROW;
+    if (col < 0 || col > 8)
+        return E_INVALID_COL;
+
+    int boxr = GetBoxID(row);
+    int boxc = GetBoxID(col);
+    int result = this->boxes[boxr][boxc]->SetValueHint(row - (3 * boxr), col - (3 * boxc), value);
+    if (result == SUCCESS)
+    {
+        this->isModified = true;
+    }
+    return result;
+}
+
+int SudokuBoard::SetValueHint(unsigned int value)
+{
+    return this->SetValueHint(this->SelectedRow-1, this->SelectedCol-1, value);
+}
+
 QString SudokuBoard::ExportToCommandList()
 {
     QString result = "# Export of SudokuPro version " + QString(APP_VERSION) + "\n";
@@ -154,11 +176,23 @@ QString SudokuBoard::ExportToCommandList()
         QList<SudokuItemWidget *> items = box->GetItems();
         foreach (SudokuItemWidget *item, items)
         {
-            if (!item->ReadOnly)
+            if (!item->ReadOnly && !item->IsEmpty())
             {
                 result += "SetValue " + QString::number(item->HintBoxPosRow + (box->HintRow * 3) + 1) +
                         " " + QString::number(item->HintBoxPosCol + (box->HintCol * 3) + 1) +
                         " " + QString::number(item->GetValue()) + "\n";
+            } else if (item->GetCurrentViewMode() == SudokuItemWidget_ViewMode_Hint)
+            {
+                unsigned int n = 1;
+                while (n < 10)
+                {
+                    if (item->GetValueHint(n++))
+                    {
+                        result += "SetHint " + QString::number(item->HintBoxPosRow + (box->HintRow * 3) + 1) +
+                                    " " + QString::number(item->HintBoxPosCol + (box->HintCol * 3) + 1) +
+                                    " " + QString::number(n) + "\n";
+                    }
+                }
             }
         }
     }

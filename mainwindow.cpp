@@ -1,9 +1,10 @@
 // Created by Petr Bena <petr@bena.rocks> (c) 2019, all rights reserved
 
 #include "mainwindow.h"
-#include "global.h"
 #include "./ui_mainwindow.h"
 #include "sudokuboard.h"
+#include "commandprocessor.h"
+#include "errors.h"
 #include <QFile>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -11,14 +12,12 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     this->ui->setupUi(this);
-    this->board = new SudokuBoard(this);
-    this->ui->verticalLayout->addWidget(this->board);
     this->labelMode = new QLabel(this);
     this->labelStatus = new QLabel(this);
     this->ui->statusbar->addWidget(this->labelMode);
     this->ui->statusbar->addWidget(this->labelStatus);
-    connect(this->board, SIGNAL(Clicked(int, int)), this, SLOT(OnClick(int, int)));
-    this->UpdateMode("editor");
+    this->board = nullptr;
+    this->New();
 }
 
 MainWindow::~MainWindow()
@@ -26,24 +25,14 @@ MainWindow::~MainWindow()
     delete this->ui;
 }
 
-QString ErrorToString(int error)
+void MainWindow::New()
 {
-    switch(error)
-    {
-        case E_ALREADY_USED:
-            return "Value is already used";
-        case E_NOT_EMPTY:
-            return "This item already has a value";
-        case E_INVALID_COL:
-            return "Invalid column";
-        case E_INVALID_ROW:
-            return "Invalid row";
-        case E_INVALID_VALUE:
-            return "Invalid value";
-        case E_READ_ONLY:
-            return "This field is read only, you can only change it in editor mode";
-    }
-    return "Unknown error (" + QString::number(error) + ")";
+    this->ui->verticalLayout->removeWidget(this->board);
+    delete this->board;
+    this->board = new SudokuBoard(this);
+    this->ui->verticalLayout->addWidget(this->board);
+    connect(this->board, SIGNAL(Clicked(int, int)), this, SLOT(OnClick(int, int)));
+    this->SwitchMode(GameMode_Editor);
 }
 
 void MainWindow::SetValue(int value)
@@ -51,10 +40,19 @@ void MainWindow::SetValue(int value)
     if (this->board->SelectedCol == 0 || this->board->SelectedRow == 0)
         return;
 
-    int result = this->board->SetValue(value, this->gameMode == GameMode_Editor);
+    int result;
+
+    if (this->gameMode == GameMode_Player && this->ui->checkBox->isChecked())
+    {
+        result = this->board->SetValueHint(value);
+    } else
+    {
+        result = this->board->SetValue(value, this->gameMode == GameMode_Editor);
+    }
+
     if (result > 1)
     {
-        this->UpdateStatus(ErrorToString(result));
+        this->UpdateStatus(Errors::ToString(result));
     }
 }
 
@@ -75,12 +73,14 @@ void MainWindow::SwitchMode(GameMode mode)
     {
         case GameMode_Editor:
             this->UpdateMode("editor");
+            this->ui->checkBox->hide();
             this->ui->pushButton_PlayGame->show();
             this->ui->labelInfo->show();
             break;
         case GameMode_Player:
             this->ui->pushButton_PlayGame->hide();
             this->UpdateMode("game");
+            this->ui->checkBox->show();
             this->ui->labelInfo->hide();
             break;
     }
@@ -162,7 +162,7 @@ void MainWindow::on_pushButton_Wipe_clicked()
     int result = this->board->ClearValue(this->gameMode == GameMode_Editor);
     if (result > 1)
     {
-        this->UpdateStatus(ErrorToString(result));
+        this->UpdateStatus(Errors::ToString(result));
     }
 }
 
@@ -187,12 +187,43 @@ void MainWindow::on_actionNew_triggered()
 {
     if (!this->NotifyChanges())
         return;
+
+    // Start a new game
+    this->New();
 }
 
 void MainWindow::on_actionLoad_triggered()
 {
     if (!this->NotifyChanges())
         return;
+
+    QString path = QFileDialog::getOpenFileName(this, "Open sudoku", "", "Sudoku command batch file (*.scb);;All Files (*)");
+    if (path.isEmpty())
+        return;
+
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+        return;
+    }
+
+    QString input_text = file.readAll();
+    file.close();
+
+    this->New();
+
+    CommandProcessor cp(this->board);
+    if (!cp.ProcessText(input_text))
+    {
+        QMessageBox::warning(this, "Unable to load file", "File can't be processed, error at line " + QString::number(cp.LastLine) + ": " + cp.LastError);
+        return;
+    }
+
+    if (cp.GetGM() != this->gameMode)
+        this->SwitchMode(cp.GetGM());
+
+    this->currentFile = path;
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -222,3 +253,4 @@ bool MainWindow::NotifyChanges()
     }
     return true;
 }
+

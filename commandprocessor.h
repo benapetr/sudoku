@@ -3,7 +3,8 @@
 #ifndef COMMANDPROCESSOR_H
 #define COMMANDPROCESSOR_H
 
-#include <QString>
+#include <QStringList>
+#include "global.h"
 
 class SudokuBoard;
 class SudokuItemWidget;
@@ -27,10 +28,17 @@ class CommandProcessor
 {
     public:
         CommandProcessor(SudokuBoard *sudoku_board);
-        void ProcessText(QString text);
-        void ProcessCommand(QString line);
+        bool ProcessText(QString text);
+        bool ProcessCommand(QString line);
+        GameMode GetGM();
+        int LastLine = 0;
+        QString LastError;
 
     private:
+        bool processSetValue(QList<QString> parameters);
+        bool processSetHint(QList<QString> parameters);
+        bool processSwitchMode(QList<QString> parameters);
+        GameMode gameMode = GameMode_Editor;
         SudokuBoard *board;
 };
 

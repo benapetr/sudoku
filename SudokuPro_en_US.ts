@@ -88,52 +88,58 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="419"/>
-        <source>File</source>
+        <location filename="mainwindow.ui" line="399"/>
+        <source>Hints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="431"/>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="443"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="441"/>
+        <location filename="mainwindow.ui" line="453"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="446"/>
+        <location filename="mainwindow.ui" line="458"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="449"/>
+        <location filename="mainwindow.ui" line="461"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="454"/>
+        <location filename="mainwindow.ui" line="466"/>
         <source>Load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="459"/>
+        <location filename="mainwindow.ui" line="471"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="464"/>
+        <location filename="mainwindow.ui" line="476"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="469"/>
+        <location filename="mainwindow.ui" line="481"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="92"/>
+        <location filename="mainwindow.cpp" line="94"/>
+        <location filename="mainwindow.cpp" line="207"/>
         <source>Unable to open file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -157,52 +163,52 @@
 <context>
     <name>SudokuItemWidget</name>
     <message>
-        <location filename="sudokuitemwidget.ui" line="801"/>
+        <location filename="sudokuitemwidget.ui" line="810"/>
         <source>X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sudokuitemwidget.ui" line="861"/>
+        <location filename="sudokuitemwidget.ui" line="888"/>
         <source>2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sudokuitemwidget.ui" line="916"/>
+        <location filename="sudokuitemwidget.ui" line="961"/>
         <source>3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sudokuitemwidget.ui" line="971"/>
+        <location filename="sudokuitemwidget.ui" line="1034"/>
         <source>4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sudokuitemwidget.ui" line="1026"/>
+        <location filename="sudokuitemwidget.ui" line="1107"/>
         <source>1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sudokuitemwidget.ui" line="1081"/>
+        <location filename="sudokuitemwidget.ui" line="1180"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sudokuitemwidget.ui" line="1136"/>
+        <location filename="sudokuitemwidget.ui" line="1253"/>
         <source>6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sudokuitemwidget.ui" line="1191"/>
+        <location filename="sudokuitemwidget.ui" line="1326"/>
         <source>7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sudokuitemwidget.ui" line="1246"/>
+        <location filename="sudokuitemwidget.ui" line="1399"/>
         <source>8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="sudokuitemwidget.ui" line="1301"/>
+        <location filename="sudokuitemwidget.ui" line="1472"/>
         <source>9</source>
         <translation type="unfinished"></translation>
     </message>

@@ -4,6 +4,7 @@
 #define SUDOKUITEMWIDGET_H
 
 #include <QFrame>
+#include <QPushButton>
 
 namespace Ui
 {
@@ -32,11 +33,14 @@ class SudokuItemWidget : public QFrame
         //! Changes value of box
         int SetValue(unsigned int new_value, bool read_only = false);
         int SetValueHint(unsigned int hint_value);
+        int UnsetValueHint(unsigned int hint_value);
         bool GetValueHint(unsigned int hint);
         void RenderValue();
+        bool IsEmpty();
         unsigned int GetValue();
         void Reset();
         void SwitchView(SudokuItemWidget_ViewMode mode);
+        SudokuItemWidget_ViewMode GetCurrentViewMode();
         void UpdateColors();
         int HintBoxPosRow;
         int HintBoxPosCol;
@@ -58,6 +62,7 @@ class SudokuItemWidget : public QFrame
         void on_pushButton_Hint9_clicked();
 
     private:
+        QPushButton *bFVH(unsigned int value);
         SudokuItemWidget_SelectionMode selectionMode = SudokuItemWidget_SelectionMode_None;
         SudokuItemWidget_ViewMode viewMode = SudokuItemWidget_ViewMode_Value;
         bool valueHint[10];

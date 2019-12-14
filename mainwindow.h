@@ -5,16 +5,11 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include "global.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-
-enum GameMode
-{
-    GameMode_Editor,
-    GameMode_Player
-};
 
 class SudokuBoard;
 
@@ -25,6 +20,7 @@ class MainWindow : public QMainWindow
     public:
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
+        void New();
         void SetValue(int value);
         void UpdateMode(QString mode);
         void UpdateStatus(QString tx);

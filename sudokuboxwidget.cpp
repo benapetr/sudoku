@@ -31,6 +31,7 @@ int SudokuBoxWidget::SetValue(int row, int col, unsigned int value, bool read_on
         return E_INVALID_VALUE;
     if (this->isUsed[value])
         return E_ALREADY_USED;
+    this->items[row][col]->SwitchView(SudokuItemWidget_ViewMode_Value);
     int result = this->items[row][col]->SetValue(value, read_only);
     if (result == 0)
         this->isUsed[value] = true;
@@ -50,6 +51,30 @@ int SudokuBoxWidget::ClearValue(int row, int col, bool read_only)
     {
         return result;
     }
+}
+
+int SudokuBoxWidget::SetValueHint(int row, int col, unsigned int value)
+{
+    if (row < 0 || row > 2)
+        return E_INVALID_ROW;
+    if (col < 0 || col > 2)
+        return E_INVALID_COL;
+    if (value < 1 || value > 9)
+        return E_INVALID_VALUE;
+    if (!this->items[row][col]->IsEmpty())
+        return E_NOT_EMPTY;
+
+    int result;
+
+    this->items[row][col]->SwitchView(SudokuItemWidget_ViewMode_Hint);
+
+    // Check if this hint is already present, if not, unset it
+    if (!this->items[row][col]->GetValueHint(value))
+        result = this->items[row][col]->SetValueHint(value);
+    else
+        result = this->items[row][col]->UnsetValueHint(value);
+
+    return result;
 }
 
 SudokuItemWidget *SudokuBoxWidget::GetItem(int row, int col)

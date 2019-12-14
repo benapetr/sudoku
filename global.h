@@ -14,4 +14,10 @@
 #define E_NOT_EMPTY     6
 #define E_READ_ONLY     20
 
+enum GameMode
+{
+    GameMode_Editor,
+    GameMode_Player
+};
+
 #endif // GLOBAL_H
