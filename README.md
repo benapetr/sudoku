@@ -31,5 +31,18 @@ cmake ..
 make
 ```
 
+## How it works
+Program works in 2 modes: editor and game
+In editor mode you can modify any value to any number as long as it follows sudoku rules, this mode is for
+new sudoku creation - you can either import own sudoku, or create a new one. In editor mode you can change
+all values, but you can't use hints.
+
+Once you switch to game mode, the game starts - you can't easily go back to editor mode. In game mode you can
+place your "guessed numbers" as well as hints and you can also remove or change them, but you can't modify
+black numbers that were inserted in editor mode.
+
+Game can be exported (saved) to simple human readable format (.scb) which contains set of commands that can be used
+to reconstruct the sudoku to point where you finished.
+
 ## I need to talk to you
 I am idling at irc.tm-irc.org or chat.freenode.net in channels #petan
