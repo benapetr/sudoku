@@ -46,6 +46,7 @@ class SudokuBoard : public QFrame
         bool FindHint(int row, int col);
         QString ExportToCommandList();
         SudokuItemWidget *GetItem(int row, int col);
+        SudokuBoxWidget *GetBox(int row, int col);
         void ResetChange();
         int SelectedRow = 0;
         int SelectedCol = 0;

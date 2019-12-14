@@ -31,6 +31,7 @@ class SudokuBoxWidget : public QFrame
         int SetValue(int row, int col, unsigned int value, bool read_only = false);
         int ClearValue(int row, int col, bool read_only = false);
         int SetValueHint(int row, int col, unsigned int value);
+        bool IsUsed(unsigned int value);
         SudokuItemWidget *GetItem(int row, int col);
         QList<SudokuItemWidget*> GetItems();
         int HintRow;

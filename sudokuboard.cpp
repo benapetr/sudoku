@@ -140,6 +140,9 @@ int SudokuBoard::CheckIfValueCanBePlaced(int row, int col, unsigned int value)
                 return E_ALREADY_USED;
         }
     }
+    SudokuBoxWidget *box = this->GetBox(row, col);
+    if (box->IsUsed(value))
+        return E_ALREADY_USED;
     return SUCCESS;
 }
 
@@ -325,6 +328,13 @@ SudokuItemWidget *SudokuBoard::GetItem(int row, int col)
     int boxr = GetBoxID(row);
     int boxc = GetBoxID(col);
     return this->boxes[boxr][boxc]->GetItem(row - (3 * boxr), col - (3 * boxc));
+}
+
+SudokuBoxWidget *SudokuBoard::GetBox(int row, int col)
+{
+    int r = GetBoxID(row);
+    int c = GetBoxID(col);
+    return this->boxes[r][c];
 }
 
 void SudokuBoard::ResetChange()

@@ -89,6 +89,11 @@ int SudokuBoxWidget::SetValueHint(int row, int col, unsigned int value)
     return result;
 }
 
+bool SudokuBoxWidget::IsUsed(unsigned int value)
+{
+    return this->isUsed[value];
+}
+
 SudokuItemWidget *SudokuBoxWidget::GetItem(int row, int col)
 {
     return this->items[row][col];
