@@ -48,6 +48,10 @@ class MainWindow : public QMainWindow
         void on_actionLoad_triggered();
         void on_actionSave_triggered();
 
+        void on_actionRemove_hints_for_same_number_as_entered_triggered();
+
+        void on_actionAutoload_last_file_triggered();
+
     private:
         void closeEvent(QCloseEvent *event);
         bool NotifyChanges();

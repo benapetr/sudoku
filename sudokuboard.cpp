@@ -183,10 +183,10 @@ QString SudokuBoard::ExportToCommandList()
                         " " + QString::number(item->GetValue()) + "\n";
             } else if (item->GetCurrentViewMode() == SudokuItemWidget_ViewMode_Hint)
             {
-                unsigned int n = 1;
-                while (n < 10)
+                unsigned int n = 0;
+                while (++n < 10)
                 {
-                    if (item->GetValueHint(n++))
+                    if (item->GetValueHint(n))
                     {
                         result += "SetHint " + QString::number(item->HintBoxPosRow + (box->HintRow * 3) + 1) +
                                     " " + QString::number(item->HintBoxPosCol + (box->HintCol * 3) + 1) +

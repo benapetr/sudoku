@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     Options::Initialize();
     this->ui->setupUi(this);
+    this->ui->actionAutoload_last_file->setChecked(Options::Autoload());
+    this->ui->actionRemove_hints_for_same_number_as_entered->setChecked(Options::GetRemoveHints());
     this->labelMode = new QLabel(this);
     this->labelStatus = new QLabel(this);
     this->ui->statusbar->addWidget(this->labelMode);
@@ -62,6 +64,9 @@ void MainWindow::SetValue(int value)
     if (result > 1)
     {
         this->UpdateStatus(Errors::ToString(result));
+    } else
+    {
+        this->UpdateTitle();
     }
 }
 
@@ -128,7 +133,7 @@ bool MainWindow::Load(QString path)
     CommandProcessor cp(this->board);
     if (!cp.ProcessText(input_text))
     {
-        QMessageBox::warning(this, "Unable to load file", "File can't be processed, error at line " + QString::number(cp.LastLine) + ": " + cp.LastError);
+        QMessageBox::warning(this, "Unable to load file", "File (" + path + ") can't be processed, error at line " + QString::number(cp.LastLine) + ": " + cp.LastError);
         return false;
     }
 
@@ -136,17 +141,23 @@ bool MainWindow::Load(QString path)
         this->SwitchMode(cp.GetGM());
 
     this->currentFile = path;
-    this->UpdateTitle();
     this->board->ResetChange();
+    this->UpdateTitle();
     return true;
 }
 
 void MainWindow::UpdateTitle()
 {
+    QString title;
     if (this->currentFile.isEmpty())
-        this->setWindowTitle("SudokuPro [unsaved]");
+        title = "SudokuPro [unsaved]";
     else
-        this->setWindowTitle("SudokuPro [" + this->currentFile + "]");
+        title = "SudokuPro [" + this->currentFile + "]";
+
+    if (this->board->IsModified())
+        title += "*";
+
+    this->setWindowTitle(title);
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -213,6 +224,7 @@ void MainWindow::on_pushButton_Wipe_clicked()
     {
         this->UpdateStatus(Errors::ToString(result));
     }
+    this->UpdateTitle();
 }
 
 void MainWindow::on_pushButton_PlayGame_clicked()
@@ -288,3 +300,12 @@ bool MainWindow::NotifyChanges()
     return true;
 }
 
+void MainWindow::on_actionRemove_hints_for_same_number_as_entered_triggered()
+{
+    Options::SetRemoveHints(this->ui->actionRemove_hints_for_same_number_as_entered->isChecked());
+}
+
+void MainWindow::on_actionAutoload_last_file_triggered()
+{
+    Options::SetAutoload(this->ui->actionAutoload_last_file->isChecked());
+}

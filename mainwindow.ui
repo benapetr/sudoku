@@ -447,15 +447,16 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
-   <widget class="QMenu" name="menuSudokus">
+   <widget class="QMenu" name="menuOptions">
     <property name="title">
-     <string>Sudokus</string>
+     <string>Options</string>
     </property>
-    <addaction name="actionFork"/>
+    <addaction name="actionAutoload_last_file"/>
     <addaction name="separator"/>
+    <addaction name="actionRemove_hints_for_same_number_as_entered"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuSudokus"/>
+   <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -492,9 +493,20 @@
     <string>About</string>
    </property>
   </action>
-  <action name="actionFork">
+  <action name="actionAutoload_last_file">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Fork</string>
+    <string>Autoload last file</string>
+   </property>
+  </action>
+  <action name="actionRemove_hints_for_same_number_as_entered">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Remove hints for same number as entered</string>
    </property>
   </action>
  </widget>
