@@ -8,7 +8,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->ui->setupUi(this);
     this->board = new SudokuBoard(this);
     this->ui->verticalLayout->addWidget(this->board);
+    this->labelMode = new QLabel(this);
+    this->labelStatus = new QLabel(this);
+    this->ui->statusbar->addWidget(this->labelMode);
+    this->ui->statusbar->addWidget(this->labelStatus);
     connect(this->board, SIGNAL(Clicked(int, int)), this, SLOT(OnClick(int, int)));
+    this->UpdateMode("editor");
 }
 
 MainWindow::~MainWindow()
@@ -34,15 +39,43 @@ QString ErrorToString(int error)
     return "Unknown error (" + QString::number(error) + ")";
 }
 
-void MainWindow::SetValue(int value, bool read_only)
+void MainWindow::SetValue(int value)
 {
     if (this->board->SelectedCol == 0 || this->board->SelectedRow == 0)
         return;
 
-    int result = this->board->SetValue(value, read_only);
+    int result = this->board->SetValue(value, this->gameMode == GameMode_Editor);
     if (result > 1)
     {
-        this->ui->statusbar->showMessage(ErrorToString(result));
+        this->UpdateStatus(ErrorToString(result));
+    }
+}
+
+void MainWindow::UpdateMode(QString mode)
+{
+    this->labelMode->setText("Mode: " + mode);
+}
+
+void MainWindow::UpdateStatus(QString tx)
+{
+    this->labelStatus->setText(tx);
+}
+
+void MainWindow::SwitchMode(GameMode mode)
+{
+    this->gameMode = mode;
+    switch (mode)
+    {
+        case GameMode_Editor:
+            this->UpdateMode("editor");
+            this->ui->pushButton_PlayGame->show();
+            this->ui->labelInfo->show();
+            break;
+        case GameMode_Player:
+            this->ui->pushButton_PlayGame->hide();
+            this->UpdateMode("game");
+            this->ui->labelInfo->hide();
+            break;
     }
 }
 
@@ -53,7 +86,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::OnClick(int row, int col)
 {
-    this->ui->statusbar->showMessage("Selected row " + QString::number(row) + " col " + QString::number(col));
+    this->UpdateStatus("Selected row " + QString::number(row) + " col " + QString::number(col));
 }
 
 void MainWindow::on_pushButton1_clicked()
@@ -99,4 +132,21 @@ void MainWindow::on_pushButton8_clicked()
 void MainWindow::on_pushButton9_clicked()
 {
     this->SetValue(9);
+}
+
+void MainWindow::on_pushButton_Wipe_clicked()
+{
+    int result = this->board->ClearValue();
+    if (result > 1)
+    {
+        this->UpdateStatus(ErrorToString(result));
+    }
+}
+
+void MainWindow::on_pushButton_PlayGame_clicked()
+{
+    if (this->gameMode != GameMode_Editor)
+        return;
+
+    this->SwitchMode(GameMode_Player);
 }

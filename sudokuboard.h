@@ -29,6 +29,8 @@ class SudokuBoard : public QFrame
         //! 5 - already used
         int SetValue(int row, int col, unsigned int value, bool read_only = false);
         int SetValue(unsigned int value, bool read_only = false);
+        int ClearValue(int row, int col);
+        int ClearValue();
         int SelectedRow = 0;
         int SelectedCol = 0;
 

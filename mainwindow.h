@@ -2,10 +2,17 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
+enum GameMode
+{
+    GameMode_Editor,
+    GameMode_Player
+};
 
 class SudokuBoard;
 
@@ -16,7 +23,10 @@ class MainWindow : public QMainWindow
     public:
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
-        void SetValue(int value, bool read_only = false);
+        void SetValue(int value);
+        void UpdateMode(QString mode);
+        void UpdateStatus(QString tx);
+        void SwitchMode(GameMode mode);
 
     private slots:
         void on_actionExit_triggered();
@@ -30,8 +40,14 @@ class MainWindow : public QMainWindow
         void on_pushButton7_clicked();
         void on_pushButton8_clicked();
         void on_pushButton9_clicked();
+        void on_pushButton_Wipe_clicked();
+
+        void on_pushButton_PlayGame_clicked();
 
     private:
+        GameMode gameMode = GameMode_Editor;
+        QLabel *labelMode;
+        QLabel *labelStatus;
         SudokuBoard *board;
         Ui::MainWindow *ui;
 };

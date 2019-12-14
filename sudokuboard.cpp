@@ -61,6 +61,23 @@ int SudokuBoard::SetValue(unsigned int value, bool read_only)
     return this->SetValue(this->SelectedRow-1, this->SelectedCol-1, value, read_only);
 }
 
+int SudokuBoard::ClearValue(int row, int col)
+{
+    if (row < 0 || row > 8)
+        return E_INVALID_ROW;
+    if (col < 0 || col > 8)
+        return E_INVALID_COL;
+
+    int boxr = GetBoxID(row);
+    int boxc = GetBoxID(col);
+    return this->boxes[boxr][boxc]->ClearValue(row - (3 * boxr), col - (3 * boxc));
+}
+
+int SudokuBoard::ClearValue()
+{
+    return this->ClearValue(this->SelectedRow-1, this->SelectedCol-1);
+}
+
 void SudokuBoard::OnClick(int brow, int bcol, int row, int col)
 {
     this->SelectedCol = (bcol * 3) + col + 1;

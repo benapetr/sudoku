@@ -35,12 +35,19 @@ int SudokuBoxWidget::SetValue(int row, int col, unsigned int value, bool read_on
     return result;
 }
 
-void SudokuBoxWidget::ClearValue(int row, int col)
+int SudokuBoxWidget::ClearValue(int row, int col)
 {
     unsigned int value = this->items[row][col]->GetValue();
-    this->items[row][col]->SetValue(0);
-    if (value >= 1 && value <= 9)
-        this->isUsed[value] = false;
+    int result = this->items[row][col]->SetValue(0);
+    if (result == SUCCESS)
+    {
+        if (value >= 1 && value <= 9)
+            this->isUsed[value] = false;
+        return SUCCESS;
+    } else
+    {
+        return result;
+    }
 }
 
 void SudokuBoxWidget::OnClicked(int row, int col)

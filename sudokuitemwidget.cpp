@@ -16,11 +16,11 @@ SudokuItemWidget::~SudokuItemWidget()
 
 int SudokuItemWidget::SetValue(unsigned int new_value, bool read_only)
 {
-    if (this->value != 0)
+    if (this->value != 0 && new_value > 0)
         return E_NOT_EMPTY;
     if (this->value == new_value)
         return E_NO_CHANGE;
-    if (new_value < 1 || new_value > 9)
+    if (new_value > 9)
         return E_INVALID_VALUE;
     this->value = new_value;
     this->ReadOnly = read_only;
