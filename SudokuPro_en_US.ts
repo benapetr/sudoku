@@ -4,7 +4,7 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="about.ui" line="13"/>
+        <location filename="about.ui" line="14"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>

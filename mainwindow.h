@@ -49,6 +49,8 @@ class MainWindow : public QMainWindow
         void on_actionSave_triggered();
 
     private:
+        void closeEvent(QCloseEvent *event);
+        bool NotifyChanges();
         QString currentFile;
         GameMode gameMode = GameMode_Editor;
         QLabel *labelMode;

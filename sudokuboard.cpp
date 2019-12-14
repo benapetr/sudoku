@@ -17,12 +17,7 @@ SudokuBoard::~SudokuBoard()
 
 bool SudokuBoard::IsModified()
 {
-    foreach (SudokuBoxWidget *box, this->allBoxes)
-    {
-        if (box->IsModified())
-            return true;
-    }
-    return false;
+    return this->isModified;
 }
 
 int GetBoxID(int p)
@@ -75,7 +70,10 @@ int SudokuBoard::SetValue(int row, int col, unsigned int value, bool read_only)
     int boxc = GetBoxID(col);
     int result = this->boxes[boxr][boxc]->SetValue(row - (3 * boxr), col - (3 * boxc), value, read_only);
     if (result == SUCCESS)
+    {
         this->valueHint[row][col] = value;
+        this->isModified = true;
+    }
     return result;
 }
 
@@ -95,7 +93,10 @@ int SudokuBoard::ClearValue(int row, int col, bool read_only)
     int boxc = GetBoxID(col);
     int result = this->boxes[boxr][boxc]->ClearValue(row - (3 * boxr), col - (3 * boxc), read_only);
     if (result == SUCCESS)
+    {
+        this->isModified = true;
         this->valueHint[row][col] = 0;
+    }
     return result;
 }
 
@@ -144,6 +145,7 @@ QString SudokuBoard::ExportToCommandList()
         }
     }
     result += "# Finished at " + QDateTime::currentDateTime().toString() + "\n\n";
+    this->isModified = false;
     return result;
 }
 

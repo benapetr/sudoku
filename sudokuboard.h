@@ -43,6 +43,7 @@ class SudokuBoard : public QFrame
 
     private:
         void populate();
+        bool isModified = false;
         SudokuBoxWidget *boxes[3][3];
         unsigned int valueHint[9][9];
         //! To make enumerations easy

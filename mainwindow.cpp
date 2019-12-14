@@ -100,6 +100,8 @@ bool MainWindow::Save(QString path)
 
 void MainWindow::on_actionExit_triggered()
 {
+    if (!this->NotifyChanges())
+        return;
     QApplication::exit();
 }
 
@@ -181,12 +183,14 @@ void MainWindow::on_actionSave_as_triggered()
 
 void MainWindow::on_actionNew_triggered()
 {
-
+    if (!this->NotifyChanges())
+        return;
 }
 
 void MainWindow::on_actionLoad_triggered()
 {
-
+    if (!this->NotifyChanges())
+        return;
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -197,4 +201,22 @@ void MainWindow::on_actionSave_triggered()
         return;
     }
     this->Save(this->currentFile);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (!this->NotifyChanges())
+        event->ignore();
+    else
+        event->accept();
+}
+
+bool MainWindow::NotifyChanges()
+{
+    if (this->board->IsModified())
+    {
+        if (QMessageBox::question(this, "Are you sure?", "Sudoku has unsaved changes, are you sure you want to drop it without saving?") == QMessageBox::StandardButton::No)
+            return false;
+    }
+    return true;
 }
