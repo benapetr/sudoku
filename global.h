@@ -15,6 +15,7 @@
 #define E_NO_SOLUTIONS                7
 #define E_MULTIPLE_SOLUTIONS          8
 #define E_INTERNAL_RESOLVER_ERR1      9
+#define E_WRONG_VALUE   10
 #define E_READ_ONLY     20
 
 enum GameMode

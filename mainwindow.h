@@ -55,6 +55,7 @@ class MainWindow : public QMainWindow
         void on_actionSolve_recursively_triggered();
         void on_actionCount_solutions_triggered();
         void on_actionRemove_all_hints_triggered();
+        void on_actionAssisted_mode_informs_you_immediatelly_on_mistake_triggered();
 
     private:
         void closeEvent(QCloseEvent *event);

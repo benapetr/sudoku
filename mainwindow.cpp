@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->ui->setupUi(this);
     this->ui->actionAutoload_last_file->setChecked(Options::Autoload());
     this->ui->actionRemove_hints_for_same_number_as_entered->setChecked(Options::GetRemoveHints());
+    this->ui->actionAssisted_mode_informs_you_immediatelly_on_mistake->setChecked(Options::GetAssistedMode());
     this->labelMode = new QLabel(this);
     this->labelStatus = new QLabel(this);
     this->ui->statusbar->addWidget(this->labelMode);
@@ -63,6 +64,10 @@ void MainWindow::SetValue(int value)
 
     if (result > 1)
     {
+        if (result == E_WRONG_VALUE)
+        {
+            QMessageBox::information(this, "Mistake", "This is a wrong value");
+        }
         this->UpdateStatus(Errors::ToString(result));
     } else
     {
@@ -113,6 +118,7 @@ bool MainWindow::Save(QString path)
     file.close();
     this->currentFile = path;
     this->UpdateTitle();
+    Options::SetLastDir(QFileInfo(path).absoluteDir().absolutePath());
     return true;
 }
 
@@ -130,12 +136,15 @@ bool MainWindow::Load(QString path)
 
     this->New();
 
+    this->board->TemporarilyDisableAssistedMode = true;
     CommandProcessor cp(this->board);
     if (!cp.ProcessText(input_text))
     {
+        this->board->TemporarilyDisableAssistedMode = false;
         QMessageBox::warning(this, "Unable to load file", "File (" + path + ") can't be processed, error at line " + QString::number(cp.LastLine) + ": " + cp.LastError);
         return false;
     }
+    this->board->TemporarilyDisableAssistedMode = false;
 
     if (cp.GetGM() != this->gameMode)
         this->SwitchMode(cp.GetGM());
@@ -143,6 +152,7 @@ bool MainWindow::Load(QString path)
     this->currentFile = path;
     this->board->ResetChange();
     this->UpdateTitle();
+    Options::SetLastDir(QFileInfo(path).absoluteDir().absolutePath());
     return true;
 }
 
@@ -237,7 +247,7 @@ void MainWindow::on_pushButton_PlayGame_clicked()
 
 void MainWindow::on_actionSave_as_triggered()
 {
-    QString path = QFileDialog::getSaveFileName(this, "Save as", "", "Sudoku command batch file (*.scb);;All Files (*)");
+    QString path = QFileDialog::getSaveFileName(this, "Save as", Options::GetLastDir(), "Sudoku command batch file (*.scb);;All Files (*)");
     if (path.isEmpty())
         return;
     if (this->Save(path))
@@ -261,7 +271,7 @@ void MainWindow::on_actionLoad_triggered()
     if (!this->NotifyChanges())
         return;
 
-    QString path = QFileDialog::getOpenFileName(this, "Open sudoku", "", "Sudoku command batch file (*.scb);;All Files (*)");
+    QString path = QFileDialog::getOpenFileName(this, "Open sudoku", Options::GetLastDir(), "Sudoku command batch file (*.scb);;All Files (*)");
     if (path.isEmpty())
         return;
 
@@ -350,4 +360,9 @@ void MainWindow::on_actionCount_solutions_triggered()
 void MainWindow::on_actionRemove_all_hints_triggered()
 {
     this->board->RemoveAllHints();
+}
+
+void MainWindow::on_actionAssisted_mode_informs_you_immediatelly_on_mistake_triggered()
+{
+    Options::SetAssistedMode(this->ui->actionAssisted_mode_informs_you_immediatelly_on_mistake->isChecked());
 }

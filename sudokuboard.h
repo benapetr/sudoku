@@ -44,6 +44,7 @@ class SudokuBoard : public QFrame
         int FindAllHints(int row, int col);
         bool FindHint();
         bool FindHint(int row, int col);
+        void FetchSolution();
         void RemoveAllHints();
         int SolveRecursively();
         int CountSolutions();
@@ -51,6 +52,7 @@ class SudokuBoard : public QFrame
         SudokuItemWidget *GetItem(int row, int col);
         SudokuBoxWidget *GetBox(int row, int col);
         void ResetChange();
+        bool TemporarilyDisableAssistedMode = false;
         int SelectedRow = 0;
         int SelectedCol = 0;
 
@@ -65,8 +67,10 @@ class SudokuBoard : public QFrame
         //! Removes all hints for a value in whole axis surrounding
         void removeHints(int row, int col, unsigned int value);
         bool isModified = false;
+        bool knowSolution = false;
         SudokuBoxWidget *boxes[3][3];
         unsigned int valueHint[9][9];
+        unsigned int resolution[9][9];
         //! To make enumerations easy
         QList<SudokuBoxWidget*> allBoxes;
         Ui::SudokuBoard *ui;

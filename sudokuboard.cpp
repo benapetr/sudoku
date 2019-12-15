@@ -47,6 +47,15 @@ int GetBoxID(int p)
 
 int SudokuBoard::SetValue(int row, int col, unsigned int value, bool read_only)
 {
+    if (!this->TemporarilyDisableAssistedMode && !read_only && Options::GetAssistedMode())
+    {
+        // We use assisted mode, which means we let user immediately know on mistake
+        if (!this->knowSolution)
+            this->FetchSolution();
+
+        if (this->knowSolution && this->resolution[row][col] != value)
+            return E_WRONG_VALUE;
+    }
     int check = this->CheckIfValueCanBePlaced(row, col, value);
     if (check != SUCCESS)
         return check;
@@ -249,6 +258,31 @@ bool SudokuBoard::FindHint(int row, int col)
         }
     }
     return false;
+}
+
+void SudokuBoard::FetchSolution()
+{
+    int solutions = 0;
+    QHash<int, QList<int>> solution = RecursiveSolver::Solve(this->valueHint, &solutions);
+    if (solutions != 1)
+    {
+        this->knowSolution = false;
+        qDebug() << "Unable to fetch solution for this sudoku - solutions: " << solutions;
+        return;
+    }
+    int row = 0;
+    int col;
+    while (row < 9)
+    {
+        col = 0;
+        while (col < 9)
+        {
+            this->resolution[row][col] = solution[row][col];
+            col++;
+        }
+        row++;
+    }
+    this->knowSolution = true;
 }
 
 void SudokuBoard::RemoveAllHints()

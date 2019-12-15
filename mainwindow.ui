@@ -454,6 +454,7 @@
     <addaction name="actionAutoload_last_file"/>
     <addaction name="separator"/>
     <addaction name="actionRemove_hints_for_same_number_as_entered"/>
+    <addaction name="actionAssisted_mode_informs_you_immediatelly_on_mistake"/>
    </widget>
    <widget class="QMenu" name="menuSudoku">
     <property name="title">
@@ -551,6 +552,14 @@
   <action name="actionRemove_all_hints">
    <property name="text">
     <string>Remove all hints</string>
+   </property>
+  </action>
+  <action name="actionAssisted_mode_informs_you_immediatelly_on_mistake">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Assisted mode - informs you immediatelly on mistake</string>
    </property>
   </action>
  </widget>

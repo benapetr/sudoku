@@ -39,3 +39,23 @@ bool Options::GetRemoveHints()
 {
     return Options::settings->value("remove-hints", true).toBool();
 }
+
+bool Options::GetAssistedMode()
+{
+    return Options::settings->value("assisted-mode", false).toBool();
+}
+
+void Options::SetAssistedMode(bool set)
+{
+    Options::settings->setValue("assisted-mode", set);
+}
+
+QString Options::GetLastDir()
+{
+    return Options::settings->value("last-dir").toString();
+}
+
+void Options::SetLastDir(QString name)
+{
+    Options::settings->setValue("last-dir", name);
+}

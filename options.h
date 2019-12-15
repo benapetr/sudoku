@@ -18,6 +18,10 @@ class Options
         static void SetLastFile(QString path);
         static void SetRemoveHints(bool set);
         static bool GetRemoveHints();
+        static bool GetAssistedMode();
+        static void SetAssistedMode(bool set);
+        static QString GetLastDir();
+        static void SetLastDir(QString name);
 
     private:
         static QSettings *settings;
