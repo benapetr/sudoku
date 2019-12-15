@@ -56,6 +56,9 @@ class MainWindow : public QMainWindow
         void on_actionCount_solutions_triggered();
         void on_actionRemove_all_hints_triggered();
         void on_actionAssisted_mode_informs_you_immediatelly_on_mistake_triggered();
+        void on_actionNew_random_triggered();
+
+        void on_actionTry_to_make_sudoku_harder_triggered();
 
     private:
         void closeEvent(QCloseEvent *event);

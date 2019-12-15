@@ -48,6 +48,7 @@ class SudokuBoard : public QFrame
         void RemoveAllHints();
         int SolveRecursively();
         int CountSolutions();
+        QHash<int, QList<int>> GetSudoku();
         QString ExportToCommandList();
         SudokuItemWidget *GetItem(int row, int col);
         SudokuBoxWidget *GetBox(int row, int col);

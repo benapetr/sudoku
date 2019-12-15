@@ -5,6 +5,7 @@
 #include "sudokuboard.h"
 #include "commandprocessor.h"
 #include "options.h"
+#include "recursivesolver.h"
 #include "errors.h"
 #include <QSettings>
 #include <QFile>
@@ -93,12 +94,14 @@ void MainWindow::SwitchMode(GameMode mode)
         case GameMode_Editor:
             this->UpdateMode("editor");
             this->ui->checkBox->hide();
+            this->ui->menuEditor->hide();
             this->ui->pushButton_PlayGame->show();
             this->ui->labelInfo->show();
             break;
         case GameMode_Player:
             this->ui->pushButton_PlayGame->hide();
             this->UpdateMode("game");
+            this->ui->menuEditor->show();
             this->ui->checkBox->show();
             this->ui->labelInfo->hide();
             break;
@@ -365,4 +368,64 @@ void MainWindow::on_actionRemove_all_hints_triggered()
 void MainWindow::on_actionAssisted_mode_informs_you_immediatelly_on_mistake_triggered()
 {
     Options::SetAssistedMode(this->ui->actionAssisted_mode_informs_you_immediatelly_on_mistake->isChecked());
+}
+
+void MainWindow::on_actionNew_random_triggered()
+{
+    if (!this->NotifyChanges())
+        return;
+
+    // Start a new game
+    this->New();
+    QHash<int, QList<int>> sudoku = RecursiveSolver::GenerateRandom();
+    int row, col;
+    row = 0;
+    while (row < 9)
+    {
+        col = 0;
+        while (col < 9)
+        {
+            if (sudoku[row][col] != 0)
+            {
+                this->board->SetValue(row, col, sudoku[row][col], true);
+            }
+            col++;
+        }
+        row++;
+    }
+}
+
+void MainWindow::on_actionTry_to_make_sudoku_harder_triggered()
+{
+    if (this->gameMode != GameMode_Editor)
+    {
+        return;
+    }
+
+    QHash<int, QList<int>> sudoku = this->board->GetSudoku();
+    if (RecursiveSolver::HasMoreThanOne(sudoku))
+    {
+        QMessageBox::warning(this, "Error", "This sudoku already has more than 1 solution");
+        return;
+    }
+    QHash<int, QList<int>> original_sudoku = sudoku;
+    RecursiveSolver::MakeHard(&sudoku);
+    int row, col;
+    int removed_clues = 0;
+    row = 0;
+    while (row < 9)
+    {
+        col = 0;
+        while (col < 9)
+        {
+            if (original_sudoku[row][col] != 0 && sudoku[row][col] == 0)
+            {
+                this->board->ClearValue(row, col, true);
+                removed_clues++;
+            }
+            col++;
+        }
+        row++;
+    }
+    this->UpdateStatus("Removed: " + QString::number(removed_clues));
 }

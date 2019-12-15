@@ -342,6 +342,11 @@ int SudokuBoard::CountSolutions()
     return RecursiveSolver::Count(this->valueHint);
 }
 
+QHash<int, QList<int>> SudokuBoard::GetSudoku()
+{
+    return RecursiveSolver::VectorsToHash(this->valueHint);
+}
+
 QString SudokuBoard::ExportToCommandList()
 {
     QString result = "# Export of SudokuPro version " + QString(APP_VERSION) + "\n";

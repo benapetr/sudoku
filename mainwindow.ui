@@ -434,6 +434,7 @@
      <string>File</string>
     </property>
     <addaction name="actionNew"/>
+    <addaction name="actionNew_random"/>
     <addaction name="separator"/>
     <addaction name="actionSave_as"/>
     <addaction name="actionSave"/>
@@ -469,7 +470,14 @@
     <addaction name="actionSolve_recursively"/>
     <addaction name="actionCount_solutions"/>
    </widget>
+   <widget class="QMenu" name="menuEditor">
+    <property name="title">
+     <string>Editor</string>
+    </property>
+    <addaction name="actionTry_to_make_sudoku_harder"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEditor"/>
    <addaction name="menuSudoku"/>
    <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
@@ -560,6 +568,16 @@
    </property>
    <property name="text">
     <string>Assisted mode - informs you immediatelly on mistake</string>
+   </property>
+  </action>
+  <action name="actionNew_random">
+   <property name="text">
+    <string>New random</string>
+   </property>
+  </action>
+  <action name="actionTry_to_make_sudoku_harder">
+   <property name="text">
+    <string>Try to remove unneeded clues</string>
    </property>
   </action>
  </widget>

@@ -18,6 +18,8 @@
 #define E_WRONG_VALUE   10
 #define E_READ_ONLY     20
 
+#define SUDOKU_MAX_SOLUTIONS 100
+
 enum GameMode
 {
     GameMode_Editor,
