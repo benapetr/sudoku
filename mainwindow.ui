@@ -462,6 +462,9 @@
     <addaction name="actionFlag_invalid_hints"/>
     <addaction name="actionFind_hints"/>
     <addaction name="actionFind_all_hints"/>
+    <addaction name="separator"/>
+    <addaction name="actionRemove_all_hints"/>
+    <addaction name="separator"/>
     <addaction name="actionSolve_recursively"/>
     <addaction name="actionCount_solutions"/>
    </widget>
@@ -543,6 +546,11 @@
   <action name="actionCount_solutions">
    <property name="text">
     <string>Count solutions</string>
+   </property>
+  </action>
+  <action name="actionRemove_all_hints">
+   <property name="text">
+    <string>Remove all hints</string>
    </property>
   </action>
  </widget>

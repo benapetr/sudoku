@@ -40,10 +40,11 @@ class SudokuBoard : public QFrame
         int CheckIfValueCanBePlaced(int row, int col, unsigned int value);
         void FlagInvalidHints();
         void FlagInvalidHints(int row, int col);
-        bool FindAllHints();
-        bool FindAllHints(int row, int col);
+        int FindAllHints();
+        int FindAllHints(int row, int col);
         bool FindHint();
         bool FindHint(int row, int col);
+        void RemoveAllHints();
         int SolveRecursively();
         int CountSolutions();
         QString ExportToCommandList();

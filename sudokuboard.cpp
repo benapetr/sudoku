@@ -178,42 +178,41 @@ void SudokuBoard::FlagInvalidHints(int row, int col)
     }
 }
 
-bool SudokuBoard::FindAllHints()
+int SudokuBoard::FindAllHints()
 {
     int row, col;
-    bool found = false;
+    int result = 0;
     row = 0;
     while (row < 9)
     {
         col = 0;
         while (col < 9)
         {
-            if (this->FindAllHints(row, col))
-                found = true;
+            result += this->FindAllHints(row, col);
             col++;
         }
         row++;
     }
-    return found;
+    return result;
 }
 
-bool SudokuBoard::FindAllHints(int row, int col)
+int SudokuBoard::FindAllHints(int row, int col)
 {
     unsigned int n = 0;
     SudokuItemWidget *item = this->GetItem(row, col);
     if (!item->IsEmpty())
         return false;
-    bool found = false;
+    int result = 0;
     while (++n < 10)
     {
         if (!item->GetValueHint(n) && this->CheckIfValueCanBePlaced(row, col, n) == 0)
         {
             item->FlagValidHint(n);
             item->SwitchView(SudokuItemWidget_ViewMode_Hint);
-            found = true;
+            result++;
         }
     }
-    return found;
+    return result;
 }
 
 bool SudokuBoard::FindHint()
@@ -250,6 +249,21 @@ bool SudokuBoard::FindHint(int row, int col)
         }
     }
     return false;
+}
+
+void SudokuBoard::RemoveAllHints()
+{
+    foreach(SudokuBoxWidget *box, this->allBoxes)
+    {
+        foreach (SudokuItemWidget *item, box->GetItems())
+        {
+            int n = 1;
+            while (n < 10)
+            {
+                item->UnsetValueHint(n++);
+            }
+        }
+    }
 }
 
 int SudokuBoard::SolveRecursively()

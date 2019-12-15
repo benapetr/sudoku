@@ -317,8 +317,7 @@ void MainWindow::on_actionFlag_invalid_hints_triggered()
 
 void MainWindow::on_actionFind_all_hints_triggered()
 {
-    if (!this->board->FindAllHints())
-        this->UpdateStatus("No hints found");
+    this->UpdateStatus("New hints: " + QString::number(this->board->FindAllHints()));
 }
 
 void MainWindow::on_actionFind_hints_triggered()
@@ -346,4 +345,9 @@ void MainWindow::on_actionCount_solutions_triggered()
     {
         QMessageBox::information(this, "Solutions found", "This sudoku has " + QString::number(result) + " solutions");
     }
+}
+
+void MainWindow::on_actionRemove_all_hints_triggered()
+{
+    this->board->RemoveAllHints();
 }
