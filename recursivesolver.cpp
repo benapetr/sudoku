@@ -28,7 +28,7 @@ bool RecursiveSolver::HasMoreThanOne(QHash<int, QList<int>> sudoku)
     return result > 1;
 }
 
-bool RecursiveSolver::MakeHard(QHash<int, QList<int> > *sudoku, int max_attempts)
+bool RecursiveSolver::MakeHard(QHash<int, QList<int>> *sudoku, int max_attempts)
 {
     // Find all used values
     QList<SudokuCoord> used = getCoordsOfUsedValues(*sudoku);
