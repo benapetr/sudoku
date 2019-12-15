@@ -20,8 +20,8 @@ class RecursiveSolver
         static QHash<int, QList<int>> GenerateRandom(unsigned int required_clues = 18, unsigned int preseed = 10);
         static bool CanBeSolved(QHash<int, QList<int>> sudoku);
         static QHash<int, QList<int>> VectorsToHash(unsigned int sudoku[9][9]);
-    private:
         static int GetBoxID(int p);
+    private:
         static bool solve(QHash<int, QList<int>> *sudoku, int *solutions);
         static bool count(QHash<int, QList<int>> *sudoku, int *solutions, int max_solutions = SUDOKU_MAX_SOLUTIONS);
         static bool findNextEmptyCell(QHash<int, QList<int>> *sudoku, int *row, int *col);

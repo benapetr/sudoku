@@ -24,14 +24,8 @@ class SudokuBoard : public QFrame
         explicit SudokuBoard(QWidget *parent = nullptr);
         ~SudokuBoard();
         bool IsModified();
-        //! Change value in box, returns
-        //! 0 - success
-        //! 1 - no change
-        //! 2 - invalid value
-        //! 3 - invalid row
-        //! 4 - invalid column
-        //! 5 - already used
         int SetValue(int row, int col, unsigned int value, bool read_only = false);
+        //! Set value in currently selected item
         int SetValue(unsigned int value, bool read_only = false);
         int ClearValue(int row, int col, bool read_only = false);
         int ClearValue(bool read_only = false);
@@ -42,8 +36,10 @@ class SudokuBoard : public QFrame
         void FlagInvalidHints(int row, int col);
         int FindAllHints();
         int FindAllHints(int row, int col);
+        //! Find and mark exactly 1 hint, returns true on success
         bool FindHint();
         bool FindHint(int row, int col);
+        //! Try to fetch a solution for current sudoku and store it into "resolution", this is used for assisted mode
         void FetchSolution();
         void RemoveAllHints();
         int SolveRecursively();
@@ -71,6 +67,7 @@ class SudokuBoard : public QFrame
         bool knowSolution = false;
         SudokuBoxWidget *boxes[3][3];
         unsigned int valueHint[9][9];
+        //! This contains solved sudoku, it's filled up only when knowSolution is true, otherwise this array contains random values
         unsigned int resolution[9][9];
         //! To make enumerations easy
         QList<SudokuBoxWidget*> allBoxes;

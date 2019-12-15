@@ -5,7 +5,22 @@
     <name>About</name>
     <message>
         <location filename="about.ui" line="14"/>
-        <source>Dialog</source>
+        <source>About SudokuPro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="about.ui" line="25"/>
+        <source>Sudoku Pro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="about.ui" line="40"/>
+        <source>version text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="about.ui" line="50"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copyright 2019, Petr Bena &amp;lt;petr@bena.rocks&amp;gt;&lt;/p&gt;&lt;p&gt;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &amp;quot;Software&amp;quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&lt;/p&gt;&lt;p&gt;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&lt;/p&gt;&lt;p&gt;THE SOFTWARE IS PROVIDED &amp;quot;AS IS&amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -213,8 +228,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="116"/>
-        <location filename="mainwindow.cpp" line="133"/>
+        <location filename="mainwindow.cpp" line="117"/>
+        <location filename="mainwindow.cpp" line="134"/>
         <source>Unable to open file</source>
         <translation type="unfinished"></translation>
     </message>

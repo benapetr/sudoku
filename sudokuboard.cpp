@@ -25,26 +25,6 @@ bool SudokuBoard::IsModified()
     return this->isModified;
 }
 
-int GetBoxID(int p)
-{
-    switch (p)
-    {
-        case 0:
-        case 1:
-        case 2:
-            return 0;
-        case 3:
-        case 4:
-        case 5:
-            return 1;
-        case 6:
-        case 7:
-        case 8:
-            return 2;
-    }
-    return -1;
-}
-
 int SudokuBoard::SetValue(int row, int col, unsigned int value, bool read_only)
 {
     if (!this->TemporarilyDisableAssistedMode && !read_only && Options::GetAssistedMode())
@@ -60,8 +40,8 @@ int SudokuBoard::SetValue(int row, int col, unsigned int value, bool read_only)
     if (check != SUCCESS)
         return check;
 
-    int boxr = GetBoxID(row);
-    int boxc = GetBoxID(col);
+    int boxr = RecursiveSolver::GetBoxID(row);
+    int boxc = RecursiveSolver::GetBoxID(col);
     int result = this->boxes[boxr][boxc]->SetValue(row - (3 * boxr), col - (3 * boxc), value, read_only);
     if (result == SUCCESS)
     {
@@ -88,8 +68,8 @@ int SudokuBoard::ClearValue(int row, int col, bool read_only)
     if (col < 0 || col > 8)
         return E_INVALID_COL;
 
-    int boxr = GetBoxID(row);
-    int boxc = GetBoxID(col);
+    int boxr = RecursiveSolver::GetBoxID(row);
+    int boxc = RecursiveSolver::GetBoxID(col);
     int result = this->boxes[boxr][boxc]->ClearValue(row - (3 * boxr), col - (3 * boxc), read_only);
     if (result == SUCCESS)
     {
@@ -111,8 +91,8 @@ int SudokuBoard::SetValueHint(int row, int col, unsigned int value)
     if (col < 0 || col > 8)
         return E_INVALID_COL;
 
-    int boxr = GetBoxID(row);
-    int boxc = GetBoxID(col);
+    int boxr = RecursiveSolver::GetBoxID(row);
+    int boxc = RecursiveSolver::GetBoxID(col);
     int result = this->boxes[boxr][boxc]->SetValueHint(row - (3 * boxr), col - (3 * boxc), value);
     if (result == SUCCESS)
     {
@@ -422,15 +402,15 @@ QString SudokuBoard::ExportToCommandList()
 
 SudokuItemWidget *SudokuBoard::GetItem(int row, int col)
 {
-    int boxr = GetBoxID(row);
-    int boxc = GetBoxID(col);
+    int boxr = RecursiveSolver::GetBoxID(row);
+    int boxc = RecursiveSolver::GetBoxID(col);
     return this->boxes[boxr][boxc]->GetItem(row - (3 * boxr), col - (3 * boxc));
 }
 
 SudokuBoxWidget *SudokuBoard::GetBox(int row, int col)
 {
-    int r = GetBoxID(row);
-    int c = GetBoxID(col);
+    int r = RecursiveSolver::GetBoxID(row);
+    int c = RecursiveSolver::GetBoxID(col);
     return this->boxes[r][c];
 }
 

@@ -59,6 +59,7 @@ class MainWindow : public QMainWindow
         void on_actionNew_random_triggered();
 
         void on_actionTry_to_make_sudoku_harder_triggered();
+        void on_actionAbout_triggered();
 
     private:
         void closeEvent(QCloseEvent *event);

@@ -4,6 +4,7 @@
 #include "./ui_mainwindow.h"
 #include "sudokuboard.h"
 #include "commandprocessor.h"
+#include "about.h"
 #include "options.h"
 #include "recursivesolver.h"
 #include "errors.h"
@@ -94,14 +95,14 @@ void MainWindow::SwitchMode(GameMode mode)
         case GameMode_Editor:
             this->UpdateMode("editor");
             this->ui->checkBox->hide();
-            this->ui->menuEditor->hide();
+            this->ui->actionTry_to_make_sudoku_harder->setEnabled(true);
             this->ui->pushButton_PlayGame->show();
             this->ui->labelInfo->show();
             break;
         case GameMode_Player:
             this->ui->pushButton_PlayGame->hide();
             this->UpdateMode("game");
-            this->ui->menuEditor->show();
+            this->ui->actionTry_to_make_sudoku_harder->setEnabled(false);
             this->ui->checkBox->show();
             this->ui->labelInfo->hide();
             break;
@@ -428,4 +429,10 @@ void MainWindow::on_actionTry_to_make_sudoku_harder_triggered()
         row++;
     }
     this->UpdateStatus("Removed: " + QString::number(removed_clues));
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    About form;
+    form.exec();
 }
