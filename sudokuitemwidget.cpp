@@ -1,5 +1,6 @@
 // Created by Petr Bena <petr@bena.rocks> (c) 2019, all rights reserved
 
+#include <QMouseEvent>
 #include "sudokuitemwidget.h"
 #include "global.h"
 #include "ui_sudokuitemwidget.h"
@@ -212,6 +213,13 @@ void SudokuItemWidget::on_pushButton_Hint8_clicked()
 void SudokuItemWidget::on_pushButton_Hint9_clicked()
 {
     this->on_pushButton_clicked();
+}
+
+void SudokuItemWidget::mousePressEvent(QMouseEvent *event)
+{
+    this->on_pushButton_clicked();
+    event->accept();
+    return;
 }
 
 QPushButton *SudokuItemWidget::bFVH(unsigned int value)

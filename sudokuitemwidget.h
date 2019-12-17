@@ -64,6 +64,7 @@ class SudokuItemWidget : public QFrame
         void on_pushButton_Hint9_clicked();
 
     private:
+        void mousePressEvent(QMouseEvent *event);
         QPushButton *bFVH(unsigned int value);
         SudokuItemWidget_SelectionMode selectionMode = SudokuItemWidget_SelectionMode_None;
         SudokuItemWidget_ViewMode viewMode = SudokuItemWidget_ViewMode_Value;
